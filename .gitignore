@@ -1,0 +1,16 @@
+# Godot: import cache and local export credentials (key passwords live in .godot/export_credentials.cfg)
+.godot/
+/android/
+# builds and working screenshots (rebuilt with the commands in README)
+build/
+shots/
+generated/
+*.tmp
+__pycache__/
+# signing keys — never in the repository
+*.keystore
+*.jks
+# docs/ and screenshots/ are not imported by Godot (.gdignore) — leftovers of earlier imports are not needed
+docs/**/*.import
+docs/*.translation
+screenshots/**/*.import

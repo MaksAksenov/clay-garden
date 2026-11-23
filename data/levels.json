@@ -1,0 +1,2876 @@
+[
+	{
+		"id": "first_sprouts",
+		"slot": 1.0,
+		"map": [
+			"222",
+			"2~2",
+			"222"
+		],
+		"hand": {
+			"flowers": 3.0
+		},
+		"season": "spring",
+		"perfect": 11.0,
+		"D": 3.9
+	},
+	{
+		"id": "small_pond",
+		"slot": 2.0,
+		"map": [
+			"~222",
+			"2222",
+			"2222"
+		],
+		"hand": {
+			"flowers": 4.0
+		},
+		"season": "spring",
+		"perfect": 14.0,
+		"D": 4.0
+	},
+	{
+		"id": "first_bush",
+		"slot": 3.0,
+		"map": [
+			"2~22",
+			"2222",
+			" 22 "
+		],
+		"hand": {
+			"flowers": 3.0,
+			"bush": 1.0
+		},
+		"season": "spring",
+		"perfect": 13.0,
+		"D": 4.7
+	},
+	{
+		"id": "narrow_bed",
+		"slot": 4.0,
+		"map": [
+			" 2",
+			"22",
+			"~~",
+			" 2"
+		],
+		"hand": {
+			"flowers": 3.0
+		},
+		"shape": "strip",
+		"season": "spring",
+		"perfect": 11.0,
+		"D": 3.9
+	},
+	{
+		"id": "windy_bushes",
+		"slot": 5.0,
+		"map": [
+			" 2",
+			"22",
+			"~2",
+			" 2"
+		],
+		"hand": {
+			"bush": 3.0,
+			"flowers": 2.0
+		},
+		"shape": "strip",
+		"season": "spring",
+		"perfect": 12.0,
+		"D": 6.5
+	},
+	{
+		"id": "morning",
+		"slot": 6.0,
+		"map": [
+			"~222",
+			"2222",
+			"222 "
+		],
+		"hand": {
+			"flowers": 3.0,
+			"bush": 1.0
+		},
+		"season": "spring",
+		"perfect": 13.0,
+		"D": 5.7
+	},
+	{
+		"id": "shade",
+		"slot": 7.0,
+		"map": [
+			"222",
+			"222",
+			"22~"
+		],
+		"hand": {
+			"tree": 1.0,
+			"bush": 2.0
+		},
+		"season": "spring",
+		"perfect": 9.0,
+		"D": 2.0
+	},
+	{
+		"id": "two_apple_trees",
+		"slot": 8.0,
+		"map": [
+			" 22 ",
+			"2222"
+		],
+		"hand": {
+			"tree": 2.0,
+			"bush": 2.0
+		},
+		"shape": "strip",
+		"season": "spring",
+		"perfect": 16.0,
+		"D": 2.9
+	},
+	{
+		"id": "snowdrops",
+		"slot": 9.0,
+		"map": [
+			" 222 ",
+			"22~22",
+			"22222"
+		],
+		"hand": {
+			"snowdrop": 2.0,
+			"bush": 1.0,
+			"flowers": 1.0
+		},
+		"season": "spring",
+		"perfect": 12.0,
+		"D": 7.5
+	},
+	{
+		"id": "two_groves",
+		"slot": 10.0,
+		"map": [
+			"  2  ",
+			" 222 ",
+			"2~222",
+			" 222 ",
+			"  2  "
+		],
+		"hand": {
+			"snowdrop": 1.0,
+			"bush": 3.0,
+			"tree": 2.0
+		},
+		"shape": "diamond",
+		"season": "spring",
+		"perfect": 25.0,
+		"D": 12.3
+	},
+	{
+		"id": "brook",
+		"slot": 11.0,
+		"map": [
+			"2222",
+			"~~~2",
+			"2222"
+		],
+		"hand": {
+			"flowers": 2.0,
+			"snowdrop": 2.0
+		},
+		"season": "spring",
+		"perfect": 12.0,
+		"D": 4.9
+	},
+	{
+		"id": "warm_stones",
+		"slot": 12.0,
+		"map": [
+			"2222",
+			"2~~2",
+			"2222"
+		],
+		"hand": {
+			"rock": 3.0,
+			"flowers": 1.0
+		},
+		"season": "spring",
+		"perfect": 14.0,
+		"D": 4.9
+	},
+	{
+		"id": "stone_by_brook",
+		"slot": 13.0,
+		"map": [
+			" ~2 ",
+			"2222",
+			"2222",
+			" 22 "
+		],
+		"hand": {
+			"rock": 1.0,
+			"snowdrop": 1.0,
+			"bush": 3.0
+		},
+		"shape": "pebble",
+		"season": "spring",
+		"perfect": 14.0,
+		"D": 9.9
+	},
+	{
+		"id": "tight_glade",
+		"slot": 14.0,
+		"map": [
+			"~22",
+			"222",
+			"222"
+		],
+		"hand": {
+			"bush": 1.0,
+			"tree": 2.0,
+			"snowdrop": 3.0
+		},
+		"shape": "tiny",
+		"season": "spring",
+		"perfect": 17.0,
+		"D": 12.6
+	},
+	{
+		"id": "lilies",
+		"slot": 15.0,
+		"map": [
+			" 222 ",
+			"2~~22",
+			"2~222",
+			" 222 "
+		],
+		"hand": {
+			"lily": 2.0,
+			"flowers": 2.0
+		},
+		"season": "spring",
+		"perfect": 16.0,
+		"D": 7.7
+	},
+	{
+		"id": "quiet_bank",
+		"slot": 16.0,
+		"map": [
+			"22222",
+			"2~~22",
+			"2~222",
+			"222  "
+		],
+		"hand": {
+			"lily": 2.0,
+			"rock": 2.0,
+			"snowdrop": 2.0,
+			"bush": 1.0
+		},
+		"season": "spring",
+		"perfect": 24.0,
+		"D": 19.8
+	},
+	{
+		"id": "forest_edge",
+		"slot": 17.0,
+		"map": [
+			"  2  ",
+			" 222 ",
+			"22222",
+			" 2~2 ",
+			"  2  "
+		],
+		"hand": {
+			"tree": 2.0,
+			"bush": 3.0,
+			"snowdrop": 1.0
+		},
+		"shape": "diamond",
+		"season": "spring",
+		"perfect": 25.0,
+		"D": 12.3
+	},
+	{
+		"id": "first_pines",
+		"slot": 18.0,
+		"map": [
+			" 222",
+			"2222",
+			"2222",
+			"222 "
+		],
+		"hand": {
+			"pine": 4.0,
+			"tree": 1.0,
+			"bush": 1.0
+		},
+		"season": "spring",
+		"perfect": 25.0,
+		"D": 11.8
+	},
+	{
+		"id": "orchard",
+		"slot": 19.0,
+		"map": [
+			"222",
+			"222",
+			"22~"
+		],
+		"hand": {
+			"snowdrop": 2.0,
+			"bush": 1.0,
+			"tree": 4.0
+		},
+		"shape": "tiny",
+		"season": "spring",
+		"perfect": 15.0,
+		"D": 14.8
+	},
+	{
+		"id": "sprouts",
+		"slot": 20.0,
+		"map": [
+			" 222 ",
+			"22222",
+			"2~222",
+			" 222 "
+		],
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"tree"
+			]
+		],
+		"hand": {
+			"bush": 2.0,
+			"flowers": 1.0
+		},
+		"season": "spring",
+		"perfect": 13.0,
+		"D": 11.9
+	},
+	{
+		"id": "mushroom_spot",
+		"slot": 21.0,
+		"map": [
+			"2222 ",
+			"22222",
+			"22222",
+			" 222 "
+		],
+		"hand": {
+			"mushroom": 2.0,
+			"pine": 2.0,
+			"tree": 1.0
+		},
+		"season": "spring",
+		"perfect": 19.0,
+		"D": 9.9
+	},
+	{
+		"map": [
+			" 22~",
+			"2222",
+			"2~22",
+			" 222"
+		],
+		"hand": {
+			"flowers": 4.0,
+			"bush": 1.0
+		},
+		"perfect": 19.0,
+		"id": "first_bed",
+		"slot": 22.0,
+		"season": "spring"
+	},
+	{
+		"id": "starlings",
+		"slot": 23.0,
+		"map": [
+			"22222",
+			"22222",
+			"2~222",
+			" 222 "
+		],
+		"hand": {
+			"birdhouse": 2.0,
+			"tree": 2.0,
+			"bush": 1.0
+		},
+		"season": "spring",
+		"perfect": 17.0,
+		"D": 9.1
+	},
+	{
+		"map": [
+			"  222 ",
+			" 22222",
+			"222222",
+			"22222 ",
+			" 222  "
+		],
+		"hand": {
+			"tree": 2.0,
+			"bush": 3.0,
+			"flowers": 3.0
+		},
+		"perfect": 30.0,
+		"id": "shady_corner",
+		"slot": 24.0,
+		"season": "spring"
+	},
+	{
+		"id": "spring_garden",
+		"slot": 25.0,
+		"map": [
+			"222 222",
+			"222~222",
+			"222 222"
+		],
+		"hand": {
+			"birdhouse": 3.0,
+			"tree": 3.0,
+			"bush": 1.0,
+			"snowdrop": 3.0
+		},
+		"shape": "bridge",
+		"season": "spring",
+		"perfect": 33.0,
+		"D": 20.9
+	},
+	{
+		"id": "bench_view",
+		"slot": 26.0,
+		"map": [
+			"2222",
+			"23~2",
+			"2222"
+		],
+		"hand": {
+			"bench": 1.0,
+			"flowers": 2.0
+		},
+		"season": "summer",
+		"perfect": 13.0,
+		"D": 9.0
+	},
+	{
+		"id": "hill_bench",
+		"slot": 27.0,
+		"map": [
+			" 2312",
+			"1232~",
+			"1212~",
+			" 233 "
+		],
+		"hand": {
+			"bench": 1.0,
+			"flowers": 2.0,
+			"tree": 1.0,
+			"bush": 1.0
+		},
+		"shape": "loaf",
+		"season": "summer",
+		"perfect": 18.0,
+		"D": 18.1
+	},
+	{
+		"id": "starling_grove",
+		"slot": 28.0,
+		"map": [
+			" 23 ",
+			"1112",
+			"123~",
+			"2231",
+			"223 "
+		],
+		"hand": {
+			"birdhouse": 2.0,
+			"tree": 2.0,
+			"bush": 2.0,
+			"snowdrop": 2.0
+		},
+		"shape": "loaf",
+		"season": "summer",
+		"perfect": 31.0,
+		"D": 25.2
+	},
+	{
+		"id": "pond_benches",
+		"slot": 29.0,
+		"map": [
+			"  2  ",
+			" 113 ",
+			"23~~~",
+			" 123 ",
+			"  1  "
+		],
+		"hand": {
+			"bench": 3.0,
+			"flowers": 4.0,
+			"lily": 1.0,
+			"tree": 1.0
+		},
+		"shape": "diamond",
+		"season": "summer",
+		"perfect": 43.0,
+		"D": 24.9
+	},
+	{
+		"id": "lake_view",
+		"slot": 30.0,
+		"map": [
+			"222",
+			"222",
+			"212",
+			" 1 ",
+			"322",
+			"32~",
+			"~~~"
+		],
+		"hand": {
+			"bench": 1.0,
+			"flowers": 4.0,
+			"lily": 3.0,
+			"tree": 1.0
+		},
+		"shape": "bridge",
+		"season": "summer",
+		"perfect": 38.0,
+		"D": 25.8
+	},
+	{
+		"id": "first_lantern",
+		"slot": 31.0,
+		"time": 0.8,
+		"map": [
+			"2222",
+			"22~2",
+			"2222"
+		],
+		"hand": {
+			"lantern": 1.0,
+			"bench": 2.0,
+			"flowers": 1.0
+		},
+		"season": "summer",
+		"perfect": 18.0,
+		"D": 10.4
+	},
+	{
+		"id": "lanterns_mushrooms",
+		"slot": 32.0,
+		"map": [
+			"211 ",
+			"3122",
+			"2122",
+			"~~32",
+			" 22 "
+		],
+		"hand": {
+			"lantern": 3.0,
+			"bench": 1.0,
+			"flowers": 2.0,
+			"mushroom": 3.0
+		},
+		"shape": "loaf",
+		"time": 0.78,
+		"season": "summer",
+		"perfect": 31.0,
+		"D": 22.9
+	},
+	{
+		"map": [
+			"  33  ",
+			" 3333 ",
+			"332233",
+			" 2222 ",
+			"  22  "
+		],
+		"hand": {
+			"pine": 4.0,
+			"mushroom": 3.0,
+			"tree": 1.0,
+			"lantern": 1.0
+		},
+		"perfect": 40.0,
+		"id": "fir_grove",
+		"slot": 33.0,
+		"season": "summer"
+	},
+	{
+		"id": "fence_line",
+		"slot": 34.0,
+		"time": 0.75,
+		"map": [
+			"22222",
+			"22222",
+			" 222 "
+		],
+		"hand": {
+			"fence": 3.0,
+			"bush": 1.0,
+			"lantern": 1.0
+		},
+		"season": "summer",
+		"perfect": 14.0,
+		"D": 6.8
+	},
+	{
+		"map": [
+			"1111111",
+			"1222221",
+			"1233321",
+			"1222221",
+			" 11111 "
+		],
+		"hand": {
+			"bench": 2.0,
+			"lantern": 3.0,
+			"fence": 3.0,
+			"flowers": 3.0
+		},
+		"perfect": 46.0,
+		"time": 0.8,
+		"id": "evening_alley",
+		"slot": 35.0,
+		"season": "summer"
+	},
+	{
+		"id": "drought",
+		"slot": 36.0,
+		"drought": true,
+		"map": [
+			"~2222",
+			"22222",
+			"2222 "
+		],
+		"hand": {
+			"flowers": 3.0,
+			"bush": 1.0
+		},
+		"season": "summer",
+		"perfect": 13.0,
+		"D": 4.4
+	},
+	{
+		"id": "dry_meadow",
+		"slot": 37.0,
+		"map": [
+			" 2322 ",
+			"221321",
+			"23221~",
+			"22  2~"
+		],
+		"hand": {
+			"flowers": 5.0,
+			"lily": 1.0,
+			"bench": 1.0,
+			"lantern": 3.0
+		},
+		"shape": "crescent",
+		"drought": true,
+		"season": "summer",
+		"perfect": 42.0,
+		"D": 32.0
+	},
+	{
+		"id": "beehive",
+		"slot": 38.0,
+		"map": [
+			"2222",
+			"2~22",
+			"2222"
+		],
+		"hand": {
+			"hive": 1.0,
+			"flowers": 1.0
+		},
+		"fixed": [
+			[
+				0.0,
+				0.0,
+				"flowers"
+			],
+			[
+				2.0,
+				2.0,
+				"flowers"
+			]
+		],
+		"season": "summer",
+		"perfect": 11.0,
+		"D": 10.1
+	},
+	{
+		"id": "bee_glade",
+		"slot": 39.0,
+		"map": [
+			"231",
+			"233",
+			"321",
+			" 3 ",
+			"222",
+			"11~",
+			"121"
+		],
+		"hand": {
+			"flowers": 6.0,
+			"bench": 1.0,
+			"lantern": 1.0,
+			"hive": 2.0,
+			"tree": 2.0
+		},
+		"shape": "bridge",
+		"fixed": [
+			[
+				1.0,
+				2.0,
+				"tree"
+			],
+			[
+				1.0,
+				3.0,
+				"pine"
+			]
+		],
+		"drought": true,
+		"season": "summer",
+		"perfect": 44.0,
+		"D": 37.5
+	},
+	{
+		"id": "hot_apiary",
+		"slot": 40.0,
+		"map": [
+			"222 ",
+			"3212",
+			" ~23",
+			" 222",
+			"3211",
+			"223 "
+		],
+		"hand": {
+			"flowers": 6.0,
+			"bench": 1.0,
+			"lantern": 1.0,
+			"hive": 2.0,
+			"tree": 2.0
+		},
+		"shape": "crescent",
+		"drought": true,
+		"season": "summer",
+		"perfect": 46.0,
+		"D": 40.9
+	},
+	{
+		"id": "hammock",
+		"slot": 41.0,
+		"map": [
+			"222",
+			"222",
+			"22~"
+		],
+		"hand": {
+			"hammock": 1.0,
+			"flowers": 1.0
+		},
+		"fixed": [
+			[
+				0.0,
+				1.0,
+				"tree"
+			],
+			[
+				2.0,
+				1.0,
+				"tree"
+			]
+		],
+		"season": "summer",
+		"perfect": 11.0,
+		"D": 13.6
+	},
+	{
+		"map": [
+			" 2222 ",
+			"22~~22",
+			"2~~~~2",
+			"22~~22",
+			" 2222 "
+		],
+		"hand": {
+			"lily": 3.0,
+			"rock": 3.0,
+			"flowers": 3.0,
+			"bench": 1.0
+		},
+		"perfect": 48.0,
+		"id": "quiet_pond",
+		"slot": 42.0,
+		"season": "summer"
+	},
+	{
+		"id": "forest_hammock",
+		"slot": 43.0,
+		"map": [
+			"2333  2232",
+			"3331222223",
+			"33112322~~",
+			"2321  1111"
+		],
+		"hand": {
+			"hammock": 2.0,
+			"pine": 2.0,
+			"tree": 3.0,
+			"mushroom": 3.0,
+			"bush": 3.0
+		},
+		"shape": "twin",
+		"season": "summer",
+		"perfect": 55.0,
+		"D": 42.8
+	},
+	{
+		"id": "hammock_bridge",
+		"slot": 44.0,
+		"map": [
+			"22~",
+			"333",
+			"311",
+			" 2 ",
+			"321",
+			"221",
+			"123"
+		],
+		"hand": {
+			"hammock": 2.0,
+			"pine": 3.0,
+			"tree": 3.0,
+			"mushroom": 2.0,
+			"bush": 4.0
+		},
+		"shape": "bridge",
+		"fixed": [
+			[
+				2.0,
+				2.0,
+				"pine"
+			],
+			[
+				1.0,
+				2.0,
+				"pine"
+			]
+		],
+		"season": "summer",
+		"perfect": 75.0,
+		"D": 44.6
+	},
+	{
+		"id": "forest_rest",
+		"slot": 45.0,
+		"map": [
+			"   222",
+			"  2322",
+			"332212",
+			"233322",
+			"2~~1  ",
+			"222   "
+		],
+		"hand": {
+			"hammock": 1.0,
+			"pine": 3.0,
+			"tree": 3.0,
+			"mushroom": 4.0,
+			"bush": 2.0
+		},
+		"shape": "stairs",
+		"season": "summer",
+		"perfect": 62.0,
+		"D": 52.6
+	},
+	{
+		"id": "hot_noon",
+		"slot": 46.0,
+		"drought": true,
+		"map": [
+			"2222",
+			"2~22",
+			"2222",
+			" 22 "
+		],
+		"hand": {
+			"flowers": 2.0,
+			"hive": 1.0
+		},
+		"season": "summer",
+		"perfect": 9.0,
+		"D": 7.2
+	},
+	{
+		"id": "bee_evening",
+		"slot": 47.0,
+		"map": [
+			" 2222~ ",
+			"1231233",
+			"112 233",
+			"~113212",
+			" 22112 "
+		],
+		"hand": {
+			"hive": 4.0,
+			"bench": 2.0,
+			"lantern": 2.0,
+			"flowers": 3.0,
+			"mushroom": 2.0
+		},
+		"shape": "kidney",
+		"time": 0.72,
+		"season": "summer",
+		"perfect": 50.0,
+		"D": 47.7
+	},
+	{
+		"map": [
+			"222222 ",
+			"2~~2222",
+			"2~~22~2",
+			"2222~~2",
+			" 22222 "
+		],
+		"hand": {
+			"lily": 4.0,
+			"flowers": 4.0,
+			"rock": 2.0,
+			"bench": 2.0,
+			"lantern": 1.0,
+			"tree": 1.0
+		},
+		"perfect": 69.0,
+		"id": "two_ponds",
+		"slot": 48.0,
+		"season": "summer"
+	},
+	{
+		"map": [
+			"  3   ",
+			" 3432 ",
+			"223322",
+			"2~2212",
+			"22~11 "
+		],
+		"fixed": [
+			[
+				2.0,
+				2.0,
+				"rock"
+			],
+			[
+				4.0,
+				4.0,
+				"rock"
+			]
+		],
+		"hand": {
+			"bench": 2.0,
+			"pine": 3.0,
+			"tree": 2.0,
+			"mushroom": 2.0,
+			"flowers": 2.0,
+			"lily": 1.0
+		},
+		"perfect": 56.0,
+		"id": "hills",
+		"slot": 49.0,
+		"season": "summer"
+	},
+	{
+		"id": "summer_garden",
+		"slot": 50.0,
+		"map": [
+			"~~12",
+			"1321",
+			"1211",
+			"1221",
+			" 23 ",
+			" 33 ",
+			"1321",
+			"2312",
+			"1123",
+			"2232"
+		],
+		"hand": {
+			"flowers": 8.0,
+			"lily": 1.0,
+			"bench": 1.0,
+			"lantern": 1.0,
+			"hive": 2.0,
+			"tree": 3.0
+		},
+		"shape": "twin",
+		"drought": true,
+		"season": "summer",
+		"perfect": 61.0,
+		"D": 56.3
+	},
+	{
+		"id": "pumpkins",
+		"slot": 51.0,
+		"map": [
+			"2222",
+			"2222",
+			"222 "
+		],
+		"hand": {
+			"pumpkin": 3.0,
+			"fence": 2.0
+		},
+		"season": "autumn",
+		"perfect": 20.0,
+		"D": 4.1
+	},
+	{
+		"map": [
+			"22222",
+			"22222",
+			"22222",
+			"22 22"
+		],
+		"hand": {
+			"pumpkin": 4.0,
+			"fence": 4.0,
+			"bush": 2.0,
+			"tree": 1.0
+		},
+		"perfect": 53.0,
+		"id": "kitchen_garden",
+		"slot": 52.0,
+		"season": "autumn",
+		"legacy": "an old level (stage 1): easier than the curve, kept for the player's progress"
+	},
+	{
+		"id": "fence_rows",
+		"slot": 53.0,
+		"map": [
+			" 231",
+			"2231",
+			"123 ",
+			"223 ",
+			"~~22",
+			" 232"
+		],
+		"hand": {
+			"fence": 4.0,
+			"bush": 2.0,
+			"tree": 2.0,
+			"pumpkin": 2.0,
+			"snowdrop": 1.0
+		},
+		"shape": "crescent",
+		"fixed": [
+			[
+				2.0,
+				3.0,
+				"rock"
+			],
+			[
+				3.0,
+				4.0,
+				"tree"
+			]
+		],
+		"season": "autumn",
+		"perfect": 49.0,
+		"D": 54.4
+	},
+	{
+		"id": "straight_fence",
+		"slot": 54.0,
+		"map": [
+			"22222",
+			"22222",
+			" 222 "
+		],
+		"hand": {
+			"fence": 4.0,
+			"pumpkin": 1.0
+		},
+		"season": "autumn",
+		"perfect": 20.0,
+		"D": 4.1
+	},
+	{
+		"id": "garden_trial",
+		"slot": 55.0,
+		"map": [
+			"232   ",
+			"~331  ",
+			"221112",
+			"322111",
+			"  132~",
+			"   112"
+		],
+		"hand": {
+			"pumpkin": 2.0,
+			"fence": 4.0,
+			"tree": 2.0,
+			"bush": 1.0,
+			"birdhouse": 4.0,
+			"snowdrop": 2.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				3.0,
+				2.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 57.0,
+		"D": 64.1
+	},
+	{
+		"id": "scarecrow",
+		"slot": 56.0,
+		"map": [
+			"22222",
+			"22222",
+			"22222"
+		],
+		"fixed": [
+			[
+				0.0,
+				0.0,
+				"pumpkin"
+			],
+			[
+				4.0,
+				0.0,
+				"pumpkin"
+			],
+			[
+				2.0,
+				2.0,
+				"pumpkin"
+			]
+		],
+		"hand": {
+			"scarecrow": 1.0,
+			"fence": 1.0
+		},
+		"season": "autumn",
+		"perfect": 11.0,
+		"D": 9.7
+	},
+	{
+		"map": [
+			" 222 ",
+			"22222",
+			"22~22",
+			" 222 "
+		],
+		"hand": {
+			"tree": 2.0,
+			"bush": 2.0,
+			"flowers": 3.0,
+			"pumpkin": 2.0,
+			"fence": 2.0,
+			"mushroom": 1.0,
+			"pine": 1.0,
+			"lily": 1.0
+		},
+		"perfect": 58.0,
+		"id": "tight_island",
+		"slot": 57.0,
+		"season": "autumn",
+		"legacy": "an old level (stage 1) with player progress: the hand is above the autumn ceiling, kept as is"
+	},
+	{
+		"id": "guarded_field",
+		"slot": 58.0,
+		"map": [
+			" 223 ",
+			"23112",
+			"22212",
+			" 1332"
+		],
+		"hand": {
+			"scarecrow": 2.0,
+			"birdhouse": 3.0,
+			"tree": 2.0,
+			"bush": 3.0,
+			"pumpkin": 1.0,
+			"fence": 2.0
+		},
+		"shape": "loaf",
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"pine"
+			],
+			[
+				1.0,
+				2.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 45.0,
+		"D": 60.1
+	},
+	{
+		"id": "crowded_field",
+		"slot": 59.0,
+		"map": [
+			" 2123 ",
+			"312321",
+			"123211",
+			"11  33"
+		],
+		"hand": {
+			"scarecrow": 3.0,
+			"birdhouse": 1.0,
+			"tree": 1.0,
+			"bush": 3.0,
+			"pumpkin": 4.0,
+			"fence": 1.0
+		},
+		"shape": "crescent",
+		"fixed": [
+			[
+				5.0,
+				1.0,
+				"pine"
+			],
+			[
+				1.0,
+				0.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 51.0,
+		"D": 58.5
+	},
+	{
+		"id": "scarecrow_trial",
+		"slot": 60.0,
+		"map": [
+			"221   ",
+			"2223  ",
+			"322332",
+			"3~2323",
+			"  2123",
+			"   232"
+		],
+		"hand": {
+			"scarecrow": 2.0,
+			"birdhouse": 1.0,
+			"tree": 2.0,
+			"bush": 2.0,
+			"pumpkin": 5.0,
+			"fence": 2.0,
+			"snowdrop": 2.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				3.0,
+				4.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 68.0,
+		"D": 62.0
+	},
+	{
+		"id": "leaf_fall",
+		"slot": 61.0,
+		"map": [
+			"2222",
+			"2222",
+			"2222"
+		],
+		"hand": {
+			"tree": 1.0,
+			"pumpkin": 3.0,
+			"fence": 1.0
+		},
+		"season": "autumn",
+		"perfect": 16.0,
+		"D": 8.1
+	},
+	{
+		"id": "under_leaves",
+		"slot": 62.0,
+		"map": [
+			"232 11~",
+			"3223213",
+			"223 212"
+		],
+		"hand": {
+			"tree": 2.0,
+			"birdhouse": 2.0,
+			"bush": 3.0,
+			"snowdrop": 2.0,
+			"scarecrow": 1.0,
+			"pumpkin": 2.0
+		},
+		"shape": "bridge",
+		"fixed": [
+			[
+				4.0,
+				2.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 43.0,
+		"D": 62.2
+	},
+	{
+		"id": "forest_evening",
+		"slot": 63.0,
+		"map": [
+			"  2123",
+			"  212~",
+			" 3122~",
+			"33122 ",
+			"3223  ",
+			"2132  "
+		],
+		"hand": {
+			"tree": 1.0,
+			"mushroom": 3.0,
+			"pine": 1.0,
+			"hammock": 3.0,
+			"lantern": 2.0,
+			"bench": 4.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				2.0,
+				3.0,
+				"tree"
+			],
+			[
+				3.0,
+				0.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 64.0,
+		"D": 66.0
+	},
+	{
+		"id": "leaf_guard",
+		"slot": 64.0,
+		"map": [
+			"21  22",
+			"121222",
+			"121232",
+			" 2132 "
+		],
+		"hand": {
+			"pumpkin": 4.0,
+			"tree": 1.0,
+			"birdhouse": 1.0,
+			"scarecrow": 2.0,
+			"bush": 2.0,
+			"fence": 4.0
+		},
+		"shape": "crescent",
+		"fixed": [
+			[
+				4.0,
+				3.0,
+				"rock"
+			],
+			[
+				4.0,
+				1.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 64.0,
+		"D": 67.3
+	},
+	{
+		"map": [
+			"  22222  ",
+			" 2233322 ",
+			"223343322",
+			"22~~3322 ",
+			"2~~~2222 ",
+			" 2~22222 ",
+			"  2222   "
+		],
+		"hand": {
+			"tree": 2.0,
+			"pine": 3.0,
+			"bush": 2.0,
+			"flowers": 4.0,
+			"mushroom": 2.0,
+			"rock": 2.0,
+			"pumpkin": 2.0,
+			"fence": 3.0,
+			"bench": 2.0,
+			"lantern": 2.0,
+			"lily": 2.0
+		},
+		"perfect": 130.0,
+		"id": "big_garden",
+		"slot": 65.0,
+		"season": "autumn",
+		"legacy": "an old level (stage 1) with player progress: the hand is above the autumn ceiling, kept as is"
+	},
+	{
+		"id": "haystack",
+		"slot": 66.0,
+		"map": [
+			"2222",
+			"2222",
+			"222 "
+		],
+		"hand": {
+			"haystack": 1.0,
+			"pumpkin": 2.0,
+			"fence": 2.0
+		},
+		"season": "autumn",
+		"perfect": 19.0,
+		"D": 5.6
+	},
+	{
+		"id": "first_stacks",
+		"slot": 67.0,
+		"map": [
+			"212",
+			"1~2",
+			"112",
+			" 1 ",
+			"222",
+			"231",
+			"223"
+		],
+		"hand": {
+			"haystack": 2.0,
+			"fence": 1.0,
+			"pumpkin": 2.0,
+			"tree": 2.0,
+			"bush": 3.0,
+			"snowdrop": 3.0
+		},
+		"shape": "bridge",
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 48.0,
+		"D": 63.1
+	},
+	{
+		"id": "stack_row",
+		"slot": 68.0,
+		"map": [
+			"  1122",
+			"  2~22",
+			" 23322",
+			"21222 ",
+			"222~  ",
+			"2221  "
+		],
+		"hand": {
+			"haystack": 2.0,
+			"pumpkin": 3.0,
+			"fence": 5.0,
+			"bush": 2.0,
+			"tree": 1.0,
+			"snowdrop": 2.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				2.0,
+				4.0,
+				"tree"
+			],
+			[
+				3.0,
+				5.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 70.0,
+		"D": 67.4
+	},
+	{
+		"id": "autumn_rest",
+		"slot": 69.0,
+		"map": [
+			" 321 ",
+			"23222",
+			"~2223",
+			"11232",
+			"1~222",
+			" 322 "
+		],
+		"hand": {
+			"hammock": 2.0,
+			"pine": 2.0,
+			"tree": 1.0,
+			"mushroom": 4.0,
+			"lantern": 1.0,
+			"bench": 5.0,
+			"flowers": 1.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				3.0,
+				1.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 79.0,
+		"D": 68.8
+	},
+	{
+		"id": "stack_puzzle",
+		"slot": 70.0,
+		"map": [
+			" 332 ",
+			"2~222",
+			"22211",
+			"23312",
+			"22232",
+			" 13~ "
+		],
+		"hand": {
+			"haystack": 1.0,
+			"pumpkin": 3.0,
+			"fence": 4.0,
+			"bush": 2.0,
+			"tree": 1.0,
+			"snowdrop": 2.0,
+			"birdhouse": 3.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				0.0,
+				3.0,
+				"tree"
+			],
+			[
+				1.0,
+				0.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 77.0,
+		"D": 72.0
+	},
+	{
+		"id": "harvest_morning",
+		"slot": 71.0,
+		"map": [
+			"22222",
+			"22222",
+			"22222",
+			" 222 "
+		],
+		"hand": {
+			"pumpkin": 4.0,
+			"fence": 3.0,
+			"scarecrow": 1.0,
+			"haystack": 1.0
+		},
+		"season": "autumn",
+		"perfect": 40.0,
+		"D": 19.8
+	},
+	{
+		"id": "harvest_evening",
+		"slot": 72.0,
+		"map": [
+			" 2223 ",
+			"3~3221",
+			"2212~2",
+			"11  14"
+		],
+		"hand": {
+			"hammock": 2.0,
+			"pine": 2.0,
+			"tree": 2.0,
+			"mushroom": 4.0,
+			"lantern": 1.0,
+			"bench": 3.0
+		},
+		"shape": "crescent",
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 62.0,
+		"D": 65.5
+	},
+	{
+		"id": "hay_harvest",
+		"slot": 73.0,
+		"map": [
+			"  11  ",
+			" 222~ ",
+			"211431",
+			"212321",
+			"122111",
+			" 2222 ",
+			"  33  "
+		],
+		"hand": {
+			"haystack": 3.0,
+			"pumpkin": 2.0,
+			"fence": 2.0,
+			"bush": 2.0,
+			"tree": 1.0,
+			"birdhouse": 2.0,
+			"snowdrop": 4.0
+		},
+		"shape": "round",
+		"fixed": [
+			[
+				2.0,
+				2.0,
+				"pine"
+			]
+		],
+		"season": "autumn",
+		"perfect": 59.0,
+		"D": 69.5
+	},
+	{
+		"id": "harvest_puzzle",
+		"slot": 74.0,
+		"map": [
+			"   ~23",
+			"  1123",
+			"232233",
+			"~12311",
+			"1233  ",
+			"333   "
+		],
+		"hand": {
+			"pumpkin": 1.0,
+			"tree": 3.0,
+			"fence": 4.0,
+			"bush": 2.0,
+			"haystack": 2.0,
+			"snowdrop": 3.0,
+			"birdhouse": 1.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				2.0,
+				4.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 66.0,
+		"D": 70.1
+	},
+	{
+		"id": "harvest",
+		"slot": 75.0,
+		"map": [
+			"232   ",
+			"2221  ",
+			"33~223",
+			"12~213",
+			"  1222",
+			"   222"
+		],
+		"hand": {
+			"haystack": 2.0,
+			"pumpkin": 3.0,
+			"fence": 2.0,
+			"bush": 4.0,
+			"tree": 1.0,
+			"snowdrop": 3.0,
+			"birdhouse": 1.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				1.0,
+				0.0,
+				"pine"
+			],
+			[
+				2.0,
+				4.0,
+				"rock"
+			]
+		],
+		"season": "autumn",
+		"perfect": 69.0,
+		"D": 73.3
+	},
+	{
+		"id": "winter_came",
+		"slot": 76.0,
+		"map": [
+			"22222",
+			"22~~2",
+			"22222"
+		],
+		"hand": {
+			"snowman": 1.0,
+			"pine": 2.0,
+			"rock": 1.0
+		},
+		"season": "winter",
+		"perfect": 12.0,
+		"D": 12.6
+	},
+	{
+		"id": "skating_rink",
+		"slot": 77.0,
+		"map": [
+			" 3322 ",
+			"222~22",
+			"~11233",
+			"13  22"
+		],
+		"hand": {
+			"snowman": 1.0,
+			"lantern": 3.0,
+			"bench": 2.0,
+			"pine": 2.0,
+			"tree": 2.0,
+			"bush": 4.0
+		},
+		"shape": "crescent",
+		"fixed": [
+			[
+				4.0,
+				2.0,
+				"rock"
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 58.0,
+		"D": 67.3
+	},
+	{
+		"id": "three_snowmen",
+		"slot": 78.0,
+		"map": [
+			" 21~3 ",
+			"211~22",
+			"122313",
+			"223312",
+			" 2111 "
+		],
+		"hand": {
+			"snowman": 3.0,
+			"lantern": 1.0,
+			"bench": 1.0,
+			"fence": 3.0,
+			"bush": 3.0,
+			"tree": 4.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				5.0,
+				2.0,
+				"rock"
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 62.0,
+		"D": 71.4
+	},
+	{
+		"id": "snowdrifts",
+		"slot": 79.0,
+		"map": [
+			"22222",
+			"22222",
+			"22222"
+		],
+		"snow": [
+			[
+				0.0,
+				0.0
+			],
+			[
+				1.0,
+				0.0
+			],
+			[
+				0.0,
+				1.0
+			],
+			[
+				4.0,
+				2.0
+			],
+			[
+				3.0,
+				2.0
+			]
+		],
+		"hand": {
+			"bench": 2.0,
+			"lantern": 1.0,
+			"pine": 2.0
+		},
+		"season": "winter",
+		"perfect": 17.0,
+		"D": 9.3
+	},
+	{
+		"id": "one_lantern",
+		"slot": 80.0,
+		"map": [
+			"232   ",
+			"222~  ",
+			"123111",
+			"123~21",
+			"  3233",
+			"   212"
+		],
+		"hand": {
+			"rock": 1.0,
+			"snowdrop": 4.0,
+			"bush": 3.0,
+			"tree": 2.0,
+			"birdhouse": 3.0,
+			"fence": 2.0,
+			"haystack": 1.0,
+			"lantern": 1.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				0.0,
+				0.0,
+				"rock"
+			],
+			[
+				5.0,
+				4.0,
+				"pine"
+			]
+		],
+		"snow": [
+			[
+				4.0,
+				2.0
+			],
+			[
+				1.0,
+				3.0
+			],
+			[
+				1.0,
+				1.0
+			],
+			[
+				0.0,
+				2.0
+			],
+			[
+				2.0,
+				0.0
+			],
+			[
+				5.0,
+				2.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 58.0,
+		"D": 70.0
+	},
+	{
+		"id": "campfire",
+		"slot": 81.0,
+		"map": [
+			"22222",
+			"22222",
+			"2222 "
+		],
+		"snow": [
+			[
+				0.0,
+				0.0
+			],
+			[
+				4.0,
+				0.0
+			],
+			[
+				0.0,
+				2.0
+			]
+		],
+		"hand": {
+			"campfire": 1.0,
+			"bench": 2.0,
+			"snowman": 1.0,
+			"pine": 1.0
+		},
+		"season": "winter",
+		"perfect": 16.0,
+		"D": 17.2
+	},
+	{
+		"id": "fireside",
+		"slot": 82.0,
+		"map": [
+			" 221 ",
+			"223~~",
+			"22123",
+			"12123",
+			"22122",
+			" 213 "
+		],
+		"hand": {
+			"campfire": 2.0,
+			"snowman": 3.0,
+			"lantern": 2.0,
+			"bench": 2.0,
+			"tree": 2.0,
+			"bush": 4.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				0.0,
+				3.0,
+				"pine"
+			],
+			[
+				1.0,
+				2.0,
+				"rock"
+			]
+		],
+		"snow": [
+			[
+				4.0,
+				4.0
+			],
+			[
+				1.0,
+				1.0
+			],
+			[
+				2.0,
+				0.0
+			],
+			[
+				2.0,
+				3.0
+			],
+			[
+				1.0,
+				3.0
+			],
+			[
+				2.0,
+				1.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 67.0,
+		"D": 72.0
+	},
+	{
+		"id": "winter_yard",
+		"slot": 83.0,
+		"map": [
+			" 1112 ",
+			"22112~",
+			"33211~",
+			"333311",
+			" 2322 "
+		],
+		"hand": {
+			"campfire": 2.0,
+			"bench": 2.0,
+			"lantern": 3.0,
+			"snowman": 1.0,
+			"fence": 5.0,
+			"haystack": 2.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				1.0,
+				1.0,
+				"tree"
+			]
+		],
+		"snow": [
+			[
+				2.0,
+				2.0
+			],
+			[
+				2.0,
+				3.0
+			],
+			[
+				4.0,
+				0.0
+			],
+			[
+				0.0,
+				1.0
+			],
+			[
+				4.0,
+				3.0
+			],
+			[
+				0.0,
+				3.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 72.0,
+		"D": 72.2
+	},
+	{
+		"id": "crowded_glade",
+		"slot": 84.0,
+		"map": [
+			"221   ",
+			"3222  ",
+			"313433",
+			"~13322",
+			"  3223",
+			"   ~22"
+		],
+		"hand": {
+			"campfire": 2.0,
+			"bench": 3.0,
+			"snowman": 1.0,
+			"lantern": 2.0,
+			"tree": 3.0,
+			"pine": 3.0,
+			"birdhouse": 3.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				5.0,
+				5.0,
+				"rock"
+			]
+		],
+		"snow": [
+			[
+				2.0,
+				0.0
+			],
+			[
+				4.0,
+				5.0
+			],
+			[
+				2.0,
+				1.0
+			],
+			[
+				4.0,
+				4.0
+			],
+			[
+				1.0,
+				2.0
+			],
+			[
+				5.0,
+				2.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 79.0,
+		"D": 72.4
+	},
+	{
+		"id": "long_evening",
+		"slot": 85,
+		"map": [
+			"2222  ",
+			"1121  ",
+			"12332 ",
+			" 3331~",
+			"  23~2",
+			"  2332"
+		],
+		"hand": {
+			"campfire": 1,
+			"bench": 3,
+			"lantern": 4,
+			"snowman": 1,
+			"fence": 1,
+			"bush": 3,
+			"tree": 4
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				4,
+				5,
+				"rock"
+			],
+			[
+				0,
+				2,
+				"rock"
+			]
+		],
+		"snow": [
+			[
+				3,
+				3
+			],
+			[
+				1,
+				2
+			],
+			[
+				2,
+				5
+			],
+			[
+				4,
+				3
+			],
+			[
+				0,
+				1
+			],
+			[
+				3,
+				2
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 87,
+		"D": 70.7
+	},
+	{
+		"id": "feeder",
+		"slot": 86.0,
+		"map": [
+			"2222",
+			"2222",
+			"222 "
+		],
+		"hand": {
+			"feeder": 1.0,
+			"pine": 2.0,
+			"tree": 1.0,
+			"birdhouse": 1.0
+		},
+		"season": "winter",
+		"perfect": 14.0,
+		"D": 9.6
+	},
+	{
+		"id": "bird_canteen",
+		"slot": 87.0,
+		"map": [
+			"221",
+			"212",
+			"323",
+			" 3 ",
+			"3~3",
+			"222",
+			"222"
+		],
+		"hand": {
+			"campfire": 3.0,
+			"bench": 2.0,
+			"snowman": 2.0,
+			"lantern": 3.0,
+			"feeder": 2.0,
+			"pine": 3.0,
+			"tree": 1.0
+		},
+		"shape": "bridge",
+		"fixed": [
+			[
+				2.0,
+				6.0,
+				"tree"
+			]
+		],
+		"snow": [
+			[
+				0.0,
+				1.0
+			],
+			[
+				0.0,
+				5.0
+			],
+			[
+				1.0,
+				6.0
+			],
+			[
+				0.0,
+				2.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 60.0,
+		"D": 72.7
+	},
+	{
+		"id": "bare_wood",
+		"slot": 88.0,
+		"map": [
+			"2223  ",
+			"2333  ",
+			"11131 ",
+			" 111~2",
+			"  2332",
+			"  12~2"
+		],
+		"hand": {
+			"feeder": 3.0,
+			"campfire": 3.0,
+			"pine": 1.0,
+			"snowman": 2.0,
+			"tree": 6.0,
+			"birdhouse": 2.0,
+			"bench": 1.0
+		},
+		"shape": "stairs",
+		"snow": [
+			[
+				0.0,
+				2.0
+			],
+			[
+				3.0,
+				4.0
+			],
+			[
+				3.0,
+				2.0
+			],
+			[
+				3.0,
+				3.0
+			],
+			[
+				1.0,
+				0.0
+			],
+			[
+				3.0,
+				1.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 59.0,
+		"D": 70.3
+	},
+	{
+		"id": "four_fires",
+		"slot": 89.0,
+		"map": [
+			"  22~  ",
+			" 32221 ",
+			"2221111",
+			"2122123",
+			" 22~21 ",
+			"  212  "
+		],
+		"hand": {
+			"feeder": 3.0,
+			"pine": 1.0,
+			"campfire": 4.0,
+			"snowman": 2.0,
+			"bench": 3.0,
+			"lantern": 4.0,
+			"tree": 2.0
+		},
+		"shape": "round",
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"pine"
+			]
+		],
+		"snow": [
+			[
+				1.0,
+				3.0
+			],
+			[
+				3.0,
+				2.0
+			],
+			[
+				1.0,
+				2.0
+			],
+			[
+				4.0,
+				4.0
+			],
+			[
+				6.0,
+				3.0
+			],
+			[
+				2.0,
+				5.0
+			],
+			[
+				3.0,
+				3.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 82.0,
+		"D": 72.3
+	},
+	{
+		"id": "winter_birds",
+		"slot": 90.0,
+		"map": [
+			" 23233 ",
+			"1332332",
+			"321 111",
+			"3212222",
+			" 21~22 "
+		],
+		"hand": {
+			"feeder": 4.0,
+			"campfire": 2.0,
+			"bench": 4.0,
+			"tree": 3.0,
+			"pine": 1.0,
+			"birdhouse": 3.0,
+			"snowman": 1.0,
+			"lantern": 2.0
+		},
+		"shape": "kidney",
+		"fixed": [
+			[
+				1.0,
+				4.0,
+				"tree"
+			]
+		],
+		"snow": [
+			[
+				0.0,
+				3.0
+			],
+			[
+				4.0,
+				2.0
+			],
+			[
+				2.0,
+				0.0
+			],
+			[
+				5.0,
+				1.0
+			],
+			[
+				6.0,
+				2.0
+			],
+			[
+				1.0,
+				3.0
+			],
+			[
+				3.0,
+				3.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 87.0,
+		"D": 73.0
+	},
+	{
+		"id": "winter_garden_walk",
+		"slot": 91.0,
+		"map": [
+			"22222",
+			"2~~22",
+			"22222",
+			" 222 "
+		],
+		"snow": [
+			[
+				4.0,
+				0.0
+			],
+			[
+				0.0,
+				2.0
+			]
+		],
+		"hand": {
+			"snowman": 1.0,
+			"pine": 2.0,
+			"bench": 1.0,
+			"campfire": 1.0,
+			"rock": 1.0
+		},
+		"season": "winter",
+		"perfect": 19.0,
+		"D": 29.8
+	},
+	{
+		"id": "farmstead",
+		"slot": 92.0,
+		"map": [
+			" 12133 ",
+			"3223222",
+			"312 123",
+			"2112~12",
+			" 22232 "
+		],
+		"hand": {
+			"haystack": 2.0,
+			"fence": 3.0,
+			"bush": 1.0,
+			"tree": 2.0,
+			"snowdrop": 2.0,
+			"birdhouse": 2.0,
+			"feeder": 4.0,
+			"campfire": 1.0
+		},
+		"shape": "kidney",
+		"fixed": [
+			[
+				4.0,
+				4.0,
+				"pine"
+			],
+			[
+				6.0,
+				3.0,
+				"tree"
+			]
+		],
+		"snow": [
+			[
+				5.0,
+				1.0
+			],
+			[
+				4.0,
+				0.0
+			],
+			[
+				4.0,
+				1.0
+			],
+			[
+				5.0,
+				0.0
+			],
+			[
+				2.0,
+				2.0
+			],
+			[
+				4.0,
+				2.0
+			],
+			[
+				0.0,
+				3.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 56.0,
+		"D": 71.8
+	},
+	{
+		"id": "fire_and_snow",
+		"slot": 93.0,
+		"map": [
+			"2221  2221",
+			"2121221323",
+			"1~3133~222",
+			"2321  2212"
+		],
+		"hand": {
+			"snowman": 3.0,
+			"campfire": 4.0,
+			"bench": 3.0,
+			"lantern": 4.0,
+			"feeder": 2.0,
+			"pine": 2.0,
+			"tree": 1.0
+		},
+		"shape": "twin",
+		"fixed": [
+			[
+				2.0,
+				1.0,
+				"pine"
+			],
+			[
+				6.0,
+				1.0,
+				"pine"
+			]
+		],
+		"snow": [
+			[
+				0.0,
+				1.0
+			],
+			[
+				8.0,
+				2.0
+			],
+			[
+				5.0,
+				1.0
+			],
+			[
+				4.0,
+				2.0
+			],
+			[
+				7.0,
+				0.0
+			],
+			[
+				8.0,
+				3.0
+			],
+			[
+				8.0,
+				0.0
+			],
+			[
+				0.0,
+				0.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 90.0,
+		"D": 72.8
+	},
+	{
+		"id": "five_feeders",
+		"slot": 94.0,
+		"map": [
+			" 122 ",
+			"11132",
+			"~13~2",
+			"33322",
+			"32122",
+			" 122 "
+		],
+		"hand": {
+			"feeder": 5.0,
+			"pine": 2.0,
+			"tree": 3.0,
+			"birdhouse": 3.0,
+			"bush": 2.0,
+			"snowdrop": 1.0,
+			"scarecrow": 2.0,
+			"campfire": 1.0
+		},
+		"shape": "cushion",
+		"fixed": [
+			[
+				0.0,
+				4.0,
+				"rock"
+			],
+			[
+				1.0,
+				3.0,
+				"pine"
+			]
+		],
+		"snow": [
+			[
+				3.0,
+				0.0
+			],
+			[
+				2.0,
+				0.0
+			],
+			[
+				4.0,
+				4.0
+			],
+			[
+				2.0,
+				4.0
+			],
+			[
+				0.0,
+				3.0
+			],
+			[
+				0.0,
+				1.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 64.0,
+		"D": 72.4
+	},
+	{
+		"id": "winter_garden_trial",
+		"slot": 95.0,
+		"map": [
+			" 323 ",
+			"12222",
+			"22333",
+			"32232",
+			"3221~",
+			" 213 "
+		],
+		"hand": {
+			"haystack": 2.0,
+			"fence": 3.0,
+			"bush": 2.0,
+			"snowdrop": 3.0,
+			"tree": 4.0,
+			"birdhouse": 3.0,
+			"scarecrow": 1.0,
+			"feeder": 1.0,
+			"campfire": 1.0
+		},
+		"shape": "cushion",
+		"snow": [
+			[
+				1.0,
+				2.0
+			],
+			[
+				1.0,
+				0.0
+			],
+			[
+				2.0,
+				5.0
+			],
+			[
+				3.0,
+				2.0
+			],
+			[
+				4.0,
+				2.0
+			],
+			[
+				4.0,
+				3.0
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 67.0,
+		"D": 72.2
+	},
+	{
+		"id": "year_round",
+		"slot": 96.0,
+		"map": [
+			"2222",
+			"2~22",
+			"2222"
+		],
+		"hand": {
+			"tree": 2.0,
+			"pumpkin": 2.0,
+			"rock": 1.0
+		},
+		"season": "winter",
+		"perfect": 31.0,
+		"D": 12.9
+	},
+	{
+		"id": "four_times",
+		"slot": 97.0,
+		"map": [
+			"2232  3232",
+			"3122221122",
+			"322~332321",
+			"23~2  1221"
+		],
+		"hand": {
+			"bench": 3.0,
+			"lantern": 2.0,
+			"campfire": 2.0,
+			"snowman": 1.0,
+			"hive": 4.0,
+			"flowers": 4.0,
+			"feeder": 2.0
+		},
+		"shape": "twin",
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 222.0,
+		"D": 68.4
+	},
+	{
+		"id": "hammock_till_snow",
+		"slot": 98.0,
+		"map": [
+			" 232 ",
+			"22332",
+			"11~21",
+			"22 32",
+			"42121",
+			"~3233",
+			" 121 "
+		],
+		"hand": {
+			"pumpkin": 2.0,
+			"tree": 2.0,
+			"hammock": 4.0,
+			"pine": 3.0,
+			"mushroom": 4.0,
+			"feeder": 1.0,
+			"birdhouse": 1.0,
+			"scarecrow": 3.0
+		},
+		"shape": "kidney",
+		"fixed": [
+			[
+				1.0,
+				2.0,
+				"rock"
+			],
+			[
+				0.0,
+				1.0,
+				"tree"
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 203,
+		"D": 70.1
+	},
+	{
+		"id": "longest_year",
+		"slot": 99.0,
+		"map": [
+			"~21   ",
+			"~~33  ",
+			"~~1212",
+			"1~2222",
+			"  2213",
+			"   212"
+		],
+		"hand": {
+			"bench": 3.0,
+			"flowers": 2.0,
+			"hive": 2.0,
+			"lily": 4.0,
+			"lantern": 3.0,
+			"campfire": 2.0,
+			"snowman": 2.0,
+			"mushroom": 2.0
+		},
+		"shape": "stairs",
+		"fixed": [
+			[
+				5.0,
+				5.0,
+				"rock"
+			],
+			[
+				2.0,
+				1.0,
+				"pine"
+			]
+		],
+		"gen_seed": 10.0,
+		"season": "winter",
+		"perfect": 281.0,
+		"D": 73.6
+	},
+	{
+		"id": "year_feast",
+		"slot": 100.0,
+		"finale": "a celebration finale: slot 100 is not the hardest (stage 6 defense), the hardest is 99",
+		"map": [
+			"222222",
+			"22~222",
+			"222222",
+			"222222"
+		],
+		"hand": {
+			"snowdrop": 1.0,
+			"bush": 2.0,
+			"hive": 1.0,
+			"flowers": 2.0,
+			"scarecrow": 1.0,
+			"pumpkin": 2.0,
+			"snowman": 1.0,
+			"pine": 2.0,
+			"tree": 1.0
+		},
+		"season": "winter",
+		"perfect": 117.0,
+		"D": 54.9
+	}
+]

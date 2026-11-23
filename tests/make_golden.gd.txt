@@ -1,0 +1,92 @@
+extends SceneTree
+## Captures "golden" coziness totals with the current scoring code: for each level 200 random
+## hand arrangements + the solver's arrangement. test_rules.gd then compares the new engine against them.
+## Run: Godot --headless --path . --script res://tests/make_golden.gd
+
+const Scoring := preload("res://scripts/scoring.gd")
+const Levels := preload("res://scripts/levels.gd")
+const Terrain := preload("res://scripts/terrain.gd")
+
+
+func _init() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 2026
+	var out := []
+	var previews := []
+	var solves := []
+	var solve_ms := 0
+	for li in Levels.LEVELS.size():
+		var L: Dictionary = Levels.LEVELS[li]
+		var m := Terrain.parse_map(L["map"])
+		var off: Vector2i = m["off"]
+		var fixed := {}
+		for f in L.get("fixed", []):
+			fixed[off + Vector2i(f[0], f[1])] = f[2]
+		var land: Array[Vector2i] = []
+		var wet: Array[Vector2i] = []
+		for c in m["land"]:
+			if fixed.has(c):
+				continue
+			if m["water"].has(c):
+				wet.append(c)
+			else:
+				land.append(c)
+		var layouts := []
+		for k in 200:
+			var items := fixed.duplicate()
+			var fl := land.duplicate()
+			var fw := wet.duplicate()
+			fl.shuffle()
+			fw.shuffle()
+			for id in L["hand"]:
+				for i in int(L["hand"][id]):
+					var pool := fw if id == "lily" else fl
+					items[pool.pop_back()] = id
+			layouts.append(items)
+		var res := Scoring.solve(L, m["land"], m["water"], fixed, 20000, 1, rng)
+		layouts.append(res["items"])
+		for items in layouts:
+			var cells := []
+			for c in items:
+				cells.append([c.x, c.y, items[c], Scoring.item_points(items[c], c, items, m["land"], m["water"])])
+			out.append({"level": li, "items": cells, "total": Scoring.total(items, m["land"], m["water"])})
+		# hints: remove a random item and hover it over a random free cell
+		for k in 60:
+			var items: Dictionary = layouts[k].duplicate()
+			var keys := items.keys()
+			var c0: Vector2i = keys[rng.randi() % keys.size()]
+			var id: String = items[c0]
+			if fixed.has(c0):
+				continue
+			items.erase(c0)
+			var pool := wet if id == "lily" else land
+			var c: Vector2i = pool[rng.randi() % pool.size()]
+			if items.has(c):
+				c = c0
+			var p := Scoring.preview(id, c, items, m["land"], m["water"])
+			var marks := []
+			for n in p["marks"]:
+				marks.append([n.x, n.y, p["marks"][n]])
+			marks.sort()
+			var cells := []
+			for cc in items:
+				cells.append([cc.x, cc.y, items[cc]])
+			previews.append({"level": li, "items": cells, "id": id, "at": [c.x, c.y], "delta": p["delta"], "marks": marks})
+		var srng := RandomNumberGenerator.new()
+		srng.seed = 99
+		var t0 := Time.get_ticks_msec()
+		var sres := Scoring.solve(L, m["land"], m["water"], fixed, 5000, 1, srng)
+		solve_ms += Time.get_ticks_msec() - t0
+		var scells := []
+		for cc in sres["items"]:
+			scells.append([cc.x, cc.y, sres["items"][cc]])
+		scells.sort()
+		solves.append({"level": li, "best": sres["best"], "items": scells})
+	var texts := {}
+	for id in Scoring.RULES:
+		texts[id] = Scoring.describe(id)
+	var f := FileAccess.open("res://tests/golden_scores.json", FileAccess.WRITE)
+	f.store_string(JSON.stringify({"totals": out, "previews": previews, "solves": solves, "describe": texts}))
+	f.close()
+	print("GOLDEN layouts=%d previews=%d solve_ms=%d" % [out.size(), previews.size(), solve_ms])
+	quit()
