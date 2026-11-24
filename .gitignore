@@ -14,3 +14,5 @@ __pycache__/
 docs/**/*.import
 docs/*.translation
 screenshots/**/*.import
+# IDE settings (PyCharm / IntelliJ) — personal, not part of the project
+.idea/

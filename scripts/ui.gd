@@ -8,6 +8,7 @@ const Levels := preload("res://scripts/levels.gd")
 const Progress := preload("res://scripts/progress.gd")
 const Campaign := preload("res://scripts/campaign.gd")
 const I18n := preload("res://scripts/i18n.gd")
+const Sheets := preload("res://scripts/sheets.gd")
 const BASE_ITEMS := ["tree", "pine", "bush", "flowers", "mushroom", "rock", "pumpkin", "fence", "bench", "lantern", "lily"]
 
 const TOOL_INFO := [{"id": "raise"}, {"id": "lower"}, {"id": "water"}, {"id": "remove"}]   # captions — tool.<id>
@@ -18,6 +19,7 @@ var buttons: Dictionary = {}
 var names: Dictionary = {}
 var group := ButtonGroup.new()
 var root: Control
+var sheets = Sheets.new()   # stage 14: the only owner of modal windows (scripts/sheets.gd)
 var bar: PanelContainer
 var tools_sep: VSeparator
 var corner: PanelContainer
@@ -113,7 +115,7 @@ const BTN_H := 56              # minimum button height on touch (≈ 6.5 mm on a
 var bar_scroll: ScrollContainer
 var bar_row: HBoxContainer
 var help_btn: Button
-var actions: HBoxContainer     # ↶ ⟲ ⟳ ↻ — in the bottom-right corner, under the thumb
+var actions: BoxContainer     # ↶ ⟲ ⟳ ↻ — in the bottom-right corner, under the thumb
 var act_undo: Button
 var act_rot_item: Button
 var bubble: Button             # above the tried cell: ✓ place / ↩ back to hand
@@ -150,6 +152,7 @@ func setup(m) -> void:
 	_build_settings()
 	_build_about()
 	_build_confirm()
+	_register_sheets()
 	root.move_child(toast_label, -1)   # the "Progress reset" toast — above the menu's dim
 	if touch and OS.has_feature("mobile"):
 		_apply_safe_area()   # on PC the "safe area" is the work area without the taskbar — not what we want
@@ -343,6 +346,7 @@ func _dim() -> Control:
 func _center_panel(parent: Control) -> VBoxContainer:
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE   # a tap outside the panel reaches the scrim (sheets.gd)
 	parent.add_child(center)
 	var panel := PanelContainer.new()
 	center.add_child(panel)
@@ -398,10 +402,27 @@ func _build_menu() -> void:
 	v.add_child(free)
 
 
+## Stage 14 (D2): the logical screen size and the free area where the island is drawn (the desktop: the whole screen).
+func view_size() -> Vector2:
+	return root.get_viewport_rect().size
+
+
+func free_rect() -> Rect2:
+	return Rect2(Vector2.ZERO, view_size())
+
+
+## Stage 14: every modal window goes through one stack (scripts/sheets.gd). The phone adds the drawer and the cheat sheet.
+func _register_sheets() -> void:
+	sheets.add("result", result, hide_result)              # a choice is needed: no dismiss by a tap on the dim
+	sheets.add("picker", picker, Callable(), false, true)   # the first start: Back goes on (to the exit warning)
+	sheets.add("settings", settings, close_settings, true)
+	sheets.add("about", about, close_about, true)
+	sheets.add("confirm", confirm, func(): sheets.close("confirm"))
+
+
 ## A new player's first start: big language buttons, the title in all languages at once.
 func _build_picker() -> void:
 	picker = _dim()
-	picker.visible = false
 	root.add_child(picker)
 
 
@@ -430,7 +451,7 @@ func show_language_picker(suggested: String) -> void:
 		b.add_theme_font_size_override("font_size", 22)
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		v.add_child(b)
-	picker.visible = true
+	sheets.open("picker")
 
 
 # ---------------------------------------------------------------- touch (stage 10)
@@ -550,10 +571,6 @@ func _apply_safe_area() -> void:
 ## Closed by "Done", Esc and a click on the dim around the panel.
 func _build_settings() -> void:
 	settings = _dim()
-	settings.visible = false
-	settings.gui_input.connect(func(e):
-		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
-			close_settings())
 	root.add_child(settings)
 	var v := _center_panel(settings)
 	v.get_parent().get_parent().mouse_filter = Control.MOUSE_FILTER_IGNORE   # a click outside the panel reaches the dim
@@ -738,16 +755,16 @@ func show_settings() -> void:
 	for bus in BUSES:
 		sliders[bus].set_value_no_signal(float(main.vol.get(bus, 0.8)))
 		slider_pct[bus].text = _pct(sliders[bus].value)
-	confirm.visible = false
-	about.visible = false
-	settings.visible = true
+	sheets.close("confirm")
+	sheets.close("about")
+	sheets.open("settings")
 
 
 func close_settings() -> void:
 	cancel_hold()
-	confirm.visible = false
-	about.visible = false
-	settings.visible = false
+	sheets.close("confirm")
+	sheets.close("about")
+	sheets.close("settings")
 	main.flush_settings()
 
 
@@ -757,11 +774,7 @@ func close_settings() -> void:
 func _build_about() -> void:
 	about = _dim()
 	(about as ColorRect).color = Color(0.25, 0.2, 0.15, 0.35)
-	about.visible = false
-	about.gui_input.connect(func(e):
-		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
-			close_about())   # a click outside the panel — back to the settings
-	settings.add_child(about)
+	settings.add_child(about)   # a tap outside the panel — back to the settings (sheets.gd)
 	about_panel = PanelContainer.new()
 	about_panel.anchor_left = 0.5
 	about_panel.anchor_right = 0.5
@@ -799,12 +812,12 @@ func _build_about() -> void:
 func show_about() -> void:
 	if not about_built:
 		_fill_about()
-	about.visible = true
+	sheets.open("about")
 	about_scroll.scroll_vertical = 0   # every opening starts at the top
 
 
 func close_about() -> void:
-	about.visible = false
+	sheets.close("about")
 
 
 func _about_label(text: String, size: int, alpha := 1.0, center := false) -> Label:
@@ -883,7 +896,6 @@ static func godot_tag() -> String:
 ## No progress — nothing to reset, no reset button.
 func _build_confirm() -> void:
 	confirm = _dim()
-	confirm.visible = false
 	root.add_child(confirm)
 
 
@@ -917,15 +929,15 @@ func show_reset_confirm() -> void:
 	if levels.is_empty():
 		v.add_child(_para(I18n.t("ui.reset.none"), 1.0))
 		v.add_child(row)
-		var close := _small_button(I18n.t("ui.reset.close"), func(): confirm.visible = false)
+		var close := _small_button(I18n.t("ui.reset.close"), func(): sheets.close("confirm"))
 		close.custom_minimum_size = Vector2(200, BTN_H if touch else 50)
 		row.add_child(close)
-		confirm.visible = true
+		sheets.open("confirm")
 		return
 	v.add_child(_para(I18n.t("ui.reset.lose", {"stars": stars, "max": Levels.LEVELS.size() * 3, "crowns": crowns}), 1.0))
 	v.add_child(_para(I18n.t("ui.reset.keep"), 0.75))
 	v.add_child(row)
-	var cancel := _small_button(I18n.t("ui.reset.cancel"), func(): confirm.visible = false)
+	var cancel := _small_button(I18n.t("ui.reset.cancel"), func(): sheets.close("confirm"))
 	cancel.custom_minimum_size = Vector2(200, BTN_H if touch else 54)
 	cancel.add_theme_font_size_override("font_size", 18)
 	row.add_child(cancel)
@@ -956,7 +968,7 @@ func show_reset_confirm() -> void:
 	hl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hl.add_theme_font_size_override("font_size", 17)
 	hold_btn.add_child(hl)
-	confirm.visible = true
+	sheets.open("confirm")
 
 
 func _para(text: String, alpha: float) -> Label:
@@ -996,8 +1008,8 @@ func hold_step(dt: float) -> void:
 		if hold_t >= HOLD_TIME:
 			hold_fired = true
 			cancel_hold()
-			confirm.visible = false
-			settings.visible = false
+			sheets.close("confirm")
+			sheets.close("settings")
 			main.reset_progress()
 			return
 	else:
@@ -1009,19 +1021,10 @@ func hold_step(dt: float) -> void:
 ## Close the top window (Esc, "Back" on Android): the reset window (during a hold — only cancel it),
 ## then the settings. false — nothing to close.
 func close_top() -> bool:
-	if confirm.visible:
-		if holding():
-			cancel_hold()
-		else:
-			confirm.visible = false
+	if confirm.visible and holding():
+		cancel_hold()
 		return true
-	if about.visible:
-		close_about()
-		return true
-	if settings.visible:
-		close_settings()
-		return true
-	return false
+	return sheets.back()
 
 
 ## Keys while the settings screen, the reset window or the language choice is open: they don't reach the game.
@@ -1047,7 +1050,6 @@ func handle_overlay_input(event: InputEvent) -> bool:
 
 func _build_result() -> void:
 	result = _dim()
-	result.visible = false
 	root.add_child(result)
 	var v := _center_panel(result)
 	v.custom_minimum_size.x = 420
@@ -1085,7 +1087,7 @@ func show_menu(progress: Dictionary) -> void:
 	if actions:
 		actions.visible = false
 		set_bubble(Vector2.ZERO, "")
-	result.visible = false
+	sheets.close("result")
 	menu.visible = true
 	menu_progress = progress
 	if menu_season == "":
@@ -1094,7 +1096,8 @@ func show_menu(progress: Dictionary) -> void:
 	bar.visible = false
 	hud.visible = false
 	help.visible = false
-	corner.visible = false
+	if corner:
+		corner.visible = false
 
 
 ## The default tab: the season of the first unlocked level without stars; if every open level has stars (the next
@@ -1293,7 +1296,7 @@ func _soon_card(slot: int) -> Control:
 func enter_sandbox_ui() -> void:
 	mode = "sandbox"
 	menu.visible = false
-	result.visible = false
+	sheets.close("result")
 	hud.visible = false
 	help.visible = true
 	corner.visible = true
@@ -1319,7 +1322,7 @@ func enter_sandbox_ui() -> void:
 func enter_level_ui(idx: int, L: Dictionary, hand: Dictionary) -> void:
 	mode = "level"
 	menu.visible = false
-	result.visible = false
+	sheets.close("result")
 	hud.visible = true
 	help.visible = true
 	corner.visible = true
@@ -1398,7 +1401,7 @@ func show_rules(id: String) -> void:
 
 
 func show_result(stars: int, score: int, L: Dictionary, record: bool, has_next: bool, note := "") -> void:
-	result.visible = true
+	sheets.open("result")
 	res_stars.filled = stars
 	res_stars.queue_redraw()
 	var th: Array = L["stars"]
@@ -1427,7 +1430,7 @@ func show_result(stars: int, score: int, L: Dictionary, record: bool, has_next: 
 
 
 func hide_result() -> void:
-	result.visible = false
+	sheets.close("result")
 
 
 # ================================================================ frame and odds and ends
@@ -1451,7 +1454,7 @@ func _process(dt: float) -> void:
 
 
 func is_over_ui(p: Vector2) -> bool:
-	if menu.visible or result.visible or picker.visible or settings.visible or confirm.visible:
+	if menu.visible or sheets.any_open():
 		return true
 	for c in [bar, corner, help, hud, actions, bubble]:
 		if c and c.is_visible_in_tree() and c.get_global_rect().has_point(p):
@@ -1572,6 +1575,8 @@ static func icon(id: String) -> Texture2D:
 			svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'>%s</svg>" % arc
 		"lock":
 			svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M3.3,4.6 V3.4 A1.7,1.7 0 0 1 6.7,3.4 V4.6' fill='none' stroke='%s' stroke-width='1.1' stroke-linecap='round'/><rect x='2.3' y='4.5' width='5.4' height='4.2' rx='0.9' fill='%s'/></svg>" % [ink, ink]
+		"trash":
+			svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2,3 H8 M4,3 V2 H6 V3 M3,3 L3.5,8.5 H6.5 L7,3 M4.5,4.6 V7 M5.5,4.6 V7' fill='none' stroke='%s' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'/></svg>" % ink
 		"menu":
 			svg ="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2,3 H8 M2,5 H8 M2,7 H8' stroke='%s' stroke-width='1.1' stroke-linecap='round'/></svg>" % ink
 		"up", "down":

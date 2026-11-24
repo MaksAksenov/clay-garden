@@ -158,6 +158,10 @@ func _test_about(m) -> void:
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
 	ui.about.gui_input.emit(click)
+	check(ui.about.visible, "a press outside About closed it before the release (stage 14: a sheet closes on the release)")
+	var up := click.duplicate() as InputEventMouseButton
+	up.pressed = false
+	ui.about.gui_input.emit(up)
 	check(not ui.about.visible and ui.settings.visible, "a click outside About didn't return to the settings")
 	ui.about_btn.pressed.emit()
 	_key(m, KEY_ESCAPE, true)

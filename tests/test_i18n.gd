@@ -240,7 +240,7 @@ func _test_scene() -> void:
 	for code in I18n.languages():
 		check(I18n.lang_name(code) in pt, "the language choice has no \"%s\"" % I18n.lang_name(code))
 		check(pt.any(func(x): return I18n.tables[code]["ui.lang.pick"] in x), "the choice title has no phrase in %s" % code)
-	m.ui.picker.visible = false
+	m.ui.sheets.close("picker")
 	# free garden: all seasons, the counter
 	m.enter_sandbox()
 	m.toggle_cozy()

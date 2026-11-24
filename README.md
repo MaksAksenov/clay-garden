@@ -212,14 +212,18 @@ are discovered automatically. A translation can also be dropped into
 | Left click (can drag) | place / apply a tool |
 | Right click | remove an item (on a level — back to hand) |
 | R | rotate fence, bench, hammock |
-| Q / E | rotate the island |
-| Mouse wheel | zoom |
-| WASD, middle button | move the camera |
+| Q / E | turn the island to the next fixed position (45° + k·90°; from a free angle — the next one in that direction, skipping one closer than 10°) |
+| Middle drag, or a left drag that starts off the island | turn the island freely around its center |
+| Mouse wheel | zoom (the closest zoom keeps the whole island on screen) |
 | 1…9, 0 | pick an item |
 | Y | free garden season |
 | Tab | "All Year Round": next season |
 | T / M / H / F12 | speed up time / quiet / hint / screenshot |
 | Esc | close a window (settings, result) or go to the menu |
+
+The camera always looks at the island's center; there is no panning. All windows (the result, settings, About, the
+reset window, and on a phone "≡" and "?") go through one stack, `scripts/sheets.gd`: a dimmed full-screen layer that
+closes on a tap outside its panel (except the result and the reset window), and Back / Esc close the top one.
 
 ### On a touch screen
 
@@ -227,26 +231,33 @@ Turns on by itself on Android/iOS (on PC — `--touch`: the mouse acts as a fing
 
 | | |
 |---|---|
-| tap a cell (level) | **try it**: a ghost, how much the item gives and what its neighbors get; tap again or "Place" (bottom right) to place |
-| tap a cell (garden) | place / apply the tool right away |
-| hold a finger on an item | remove it (on a level — back to hand); a ring shows how long to hold; or "Back to hand" / "Remove" at the bottom right |
-| drag with one finger | move the camera |
+| tap a cell (level) | **try it**: a ghost, how much the item gives and what its neighbors get; **tap the same cell again** to place |
+| tap a cell (garden) | place / apply the tool right away; a tap on an item selects it |
+| tap an item, then the trash | back to hand (level) / remove (garden); without a selection the trash says what to do |
+| hold a finger on an item | the same as the trash; a ring shows how long to hold |
+| drag with one finger | turn the island around its center by any angle (with a little inertia; near a fixed position it eases into it) |
 | pinch | zoom |
-| bottom-right buttons | rotate the item (fence, bench, hammock), rotate the island, **undo** (10 steps; Ctrl+Z on PC) |
-| "Back" (Android) | close a window / go to the menu / in the menu a second press exits |
+| the column at the bottom right | rotate the item (fence, bench, hammock; its slot stays empty otherwise), trash, **undo** (10 steps; Ctrl+Z on PC) |
+| "Back" (Android) | close a window; in a level or the garden — open "≡" (an edge swipe is Back, so it never leaves a level); in the menu a second press exits |
 
 **Phone layout** is a separate interface subclass, `scripts/ui_phone.gd` (the desktop one is unchanged), based on
-the designer agent's mockups (the decisions are in `docs/defense/step10-touch.md`) for a Pixel 10 Pro XL in
-landscape: a logical canvas of 1333×600, 48 px side margins (the camera hole), buttons at least 56 px (≈ 6.5 mm).
+the designer agent's mockups (the decisions are in `docs/defense/step10-touch.md`, the stage 14 polish in
+`step14-phone-polish.md`) for a Pixel 10 Pro XL in landscape: a logical canvas of 1333×600, buttons at least 56 px
+(≈ 6.5 mm), one gap of 16 px to every screen edge and between neighbors (inside the system safe area: the camera
+hole and the rounded corners).
 
-- "≡" at the top left — the rare things: time, new island / restart (double press), coziness, settings, menu.
+- "≡" at the top left opens a full-screen window of rare things: time, new island / restart (double press), coziness,
+  settings, menu.
 - The top bar: on a level — the name, coziness and stars with thresholds (plus the "All Year Round" season row); in
   the garden — season and time (tap for the next season; coziness appears there too when it's on). "?" at the top
-  right — a gesture cheat sheet.
+  right — a full-screen gesture cheat sheet.
 - The rules card on the left (level): the header with the item name collapses it; the level hint and the rules; long
-  ones scroll with a finger. On a level the island is shifted right of the card.
-- At the bottom: the item dock (icons, "×N" on a level; scrolls), a permanent terrain group in the garden; action
-  buttons on the right. The level result is on the left, so the garden stays visible.
+  ones scroll with a finger.
+- At the bottom: the item dock (icons, "×N" on a level; scrolls), a permanent terrain group in the garden; the action
+  column at the right edge. Nothing appears over the play area.
+- The island is drawn at the center of the free area (between the card, the column, the top bar and the dock); it never
+  moves when the card collapses or a window opens. The level result opens a second after the last placement, centered
+  over a light dim.
 
 The first try, the first placement and entering the garden show a short tip. The app saves everything when it goes
 to the background.
@@ -255,7 +266,8 @@ to the background.
 
 - `shaders/clay.gdshader`: clay (noise-based bump without textures, dents, a light rim).
 - `scripts/clay.gd`: rounded "squished" blocks and a material cache.
-- `scripts/terrain.gd`: the island of columns, level maps, seasonal palettes, ice, snowdrifts, drought.
+- `scripts/terrain.gd`: the island of columns, level maps, seasonal palettes, ice, snowdrifts, drought; water finds its
+  level (a pond is never higher than the land around it) and falls as a clay waterfall from the island's edge.
 - `scripts/items.gd`: the item catalog and modeling, seasonal shapes.
 - `scripts/scoring.gd`: coziness rules as data (`adj`, `water`, `view`, `near`, `between`, `line`, `cap`, `thirst`,
   `ice`, `on`, cold), conditional rules by campaign flags, score hints, the solver.
@@ -273,6 +285,7 @@ Debug options (after `--`): `--level=N`, `--sandbox`, `--autosolve` (`--explain`
 `--yearview=autumn` — an "All Year Round" season; `--midplay` — take the most valuable item back and try it),
 `--fresh`, `--nosave`, `--newplayer`, `--lang=en` (`xx` — pseudo-language), `--langpick`, `--touch` (touch mode;
 with `--resolution 1600x720` — like a phone), `--aim=x,y` (try a cell, screenshot), `--drawer` (open "≡"),
+`--sheet=drawer` / `--sheet=help` (a phone window open), `--yaw=20` (the camera's yaw in degrees),
 `--settings`, `--about`, `--resetbar=0.5` (the reset window with a frozen bar; nothing is reset), `--season=winter`
 (the free garden's season; in the menu — that season's tab),
 `--cozy`, `--seed=7`, `--time=0.9`, `--tool=bench`, `--click=x,y;x,y`, `--hover=x,y`, `--rclick=x,y`, `--nocoach`
@@ -291,6 +304,7 @@ $g = "C:\Tools\Godot\Godot_v4.7.2-stable_win64_console.exe"   # console build of
 & $g --headless --path . --script res://tests/test_i18n.gd       # languages: dictionaries, cards, the whole interface in English
 & $g --headless --path . --script res://tests/test_settings.gd   # settings: buses, carousel, hold-to-reset, About, player files intact
 & $g --headless --path . --script res://tests/test_touch.gd      # touch: try-then-place, gestures, undo, Back, phone layout
+& $g --headless --path . --script res://tests/test_water.gd      # water: never above land, garden edits and undo, waterfalls
 py -X utf8 tools/check_english.py                                  # everything is English; Russian only in the localization package
 ```
 

@@ -47,7 +47,7 @@ var highlight: MeshInstance3D
 var highlight_material: ShaderMaterial
 var hover_cell := NO_CELL
 var painting := 0                 # 0 — none, 1 — left button, 2 — right button
-var panning := false
+var rotating := false             # PC: a middle drag, or a left drag that began off the island, turns the island
 
 var island_seed := 0
 var day_time := 0.36
@@ -55,6 +55,26 @@ var time_fast := false
 var daylight := 1.0
 var yaw_target := PI * 0.25
 var zoom_target := 13.0
+## Stage 14 (D4): the camera orbits the island's fixed center; a drag turns it by any angle, Q / E go to the fixed
+## positions 45° + k·90°. The zoom range comes from the map: at the closest zoom every land cell stays in the free area.
+const YAW_BASE := PI * 0.25
+const YAW_STEP := PI * 0.5
+const SNAP_DEG := 10.0            # Q / E skip a position closer than this; after a spin the island eases into one this close
+const SPIN_DECAY := 0.1           # release inertia: the speed falls e times every 0.1 s (≈ 0.3 s to a stop)
+const SPIN_MIN := 0.05            # rad/s: slower than this the spin stops (and the soft snap applies)
+const SPIN_STOP := 0.3            # rad/s: a touch during a faster spin stops it and is not a tap
+const PITCH := 35.0
+var yaw_vel := 0.0                # rad/s of the release inertia
+var drag_us := 0                  # the last rotation drag event's time (µs) — for the release speed
+var zoom_min := 7.0
+var zoom_max := 24.0
+var fit_key := []                 # what the zoom range was computed for: mode, level, the free area
+const RESULT_DELAY := 1.0         # D6: the finished island and its "+N" are seen before the result sheet
+var result_delay := RESULT_DELAY  # tests set 0
+var result_wait := -1.0           # > 0 — the result is pending; the world and undo don't take input
+var result_args := []
+var pond_note := false           # the loaded garden's ponds found their level: say so once on entering
+var aim_placed := 0               # placements by "tap again" this session: the hint repeats until the 3rd
 var t := 0.0
 var save_enabled := true
 var save_timer := -1.0
@@ -86,7 +106,7 @@ var settings_timer := -1.0        # settings are written 0.5 s after the last ch
 const TAP_SLOP := 26.0            # logical px: beyond this it's a camera drag, not a tap
 const LONG_TIME := 0.45           # long press — remove / back to hand
 const RING_FROM := 0.2            # from this moment a ring grows around the finger
-const CONFIRM_GUARD := 0.25       # a second try-tap sooner than this is a tremor or a double tap, not a placement
+const CONFIRM_GUARD := 0.06       # a second try-tap sooner than this is the same tap's duplicate event (a quick double tap places)
 const UNDO_MAX := 10
 const TOUCH_SIZE := Vector2i(1333, 600)   # logical interface size on a phone: everything is bigger
 var touch_mode := false           # Android/iOS or --touch
@@ -143,6 +163,8 @@ var new_player := false   # --newplayer: progress as for a new player (the file 
 var debug_mouse := Vector2(-1, -1)       # --hover=x,y
 var debug_clicks: Array[Vector2] = []    # --click=x,y;x,y
 var debug_drawer := false         # --drawer: open "≡" (phone layout screenshot)
+var sheet_arg := ""               # --sheet=drawer|help: open that sheet for a screenshot
+var yaw_arg := INF                # --yaw=20: the camera's yaw in degrees for a screenshot
 var debug_aim := Vector2(-1, -1)          # --aim=x,y: try a cell (touch) on frame 30 — for a screenshot
 var debug_rclicks: Array[Vector2] = []   # --rclick=x,y;x,y (right button, on frame 60 — after --autosolve)
 var seed_arg := -1
@@ -404,6 +426,10 @@ func _parse_args() -> void:
 			debug_aim = Vector2(float(axy[0]), float(axy[1]))
 		elif a == "--drawer":
 			debug_drawer = true
+		elif a.begins_with("--sheet="):
+			sheet_arg = a.substr(8)
+		elif a.begins_with("--yaw="):
+			yaw_arg = float(a.substr(6))
 		elif a == "--touch":
 			touch_arg = true
 		elif a == "--settings":
@@ -617,6 +643,9 @@ func _load_sandbox() -> void:
 
 func open_menu() -> void:
 	_flush_save()
+	result_wait = -1.0
+	result_args = []
+	yaw_vel = 0.0
 	mode = "menu"
 	_set_aim(NO_CELL)
 	painting = 0
@@ -647,6 +676,9 @@ func enter_sandbox() -> void:
 	if season_arg == "" and not garden_season in garden_seasons():
 		set_garden_season("summer")
 		ui.toast(I18n.t("toast.garden_locked"), 4.5)
+	elif pond_note:
+		pond_note = false
+		ui.toast(I18n.t("toast.pond_settled"), 4.0)
 	elif touch_mode and not coach.has("sandbox"):
 		_coach("sandbox")
 	else:
@@ -659,6 +691,9 @@ func start_level(i: int) -> void:
 	mode = "level"
 	_set_aim(NO_CELL)
 	undo_stack.clear()
+	result_wait = -1.0
+	result_args = []
+	yaw_vel = 0.0
 	if music:
 		music.set_duck(true)
 	level_idx = i
@@ -689,7 +724,7 @@ func start_level(i: int) -> void:
 	zoom_target = clampf(maxf(size.x, size.y) * 1.25 + 3.5, 8.0, 15.0)
 	if touch_mode:
 		zoom_target *= 1.05   # on a phone the dock at the bottom is taller — the island a bit farther
-	yaw_target = PI * 0.25 + roundf((yaw_target - PI * 0.25) / (PI * 0.5)) * PI * 0.5
+	yaw_target = YAW_BASE + roundf((yaw_target - YAW_BASE) / YAW_STEP) * YAW_STEP
 	ui.enter_level_ui(i, L, hand)
 	run_log = {"start": Time.get_ticks_msec(), "placed": 0, "returned": 0}
 	tool = ""
@@ -957,8 +992,19 @@ func _level_complete() -> void:
 		sfx.play("chirp", 1.0, -4.0)
 	else:
 		sfx.play("nope", 1.0, -6.0)
-	ui.show_result(stars, level_score, L, record, Progress.next_unlocked(level_idx, progress) >= 0,
-		_unlock_note(L, open_before))
+	result_args = [stars, level_score, L, record, Progress.next_unlocked(level_idx, progress) >= 0, _unlock_note(L, open_before)]
+	result_wait = 0.0 if autosolve else result_delay
+	if result_wait <= 0.0:
+		_show_pending_result()
+
+
+func _show_pending_result() -> void:
+	result_wait = -1.0
+	if mode != "level" or result_args.is_empty():
+		return
+	var a := result_args
+	result_args = []
+	ui.show_result(a[0], a[1], a[2], a[3], a[4], a[5])
 
 
 ## A result line about unlocking (stage 13): a new season or chapter has just opened; otherwise, while the next chapter
@@ -1267,6 +1313,19 @@ func _remove_item(c: Vector2i) -> void:
 
 
 ## After terrain edits: the item moves with the height or disappears if it doesn't belong there.
+## Stage 15 (D3): after a terrain edit water finds its level; every moved cell is rebuilt and its item follows it.
+## The first time an edit moves water, a one-time toast says why.
+func _settle_terrain() -> void:
+	var moved: Array = terrain.settle()
+	for m in moved:
+		terrain.build_cell(m, true)
+		_after_terrain(m)
+	if not moved.is_empty() and not coach.has("water_level"):
+		coach["water_level"] = true
+		settings_timer = 0.5
+		ui.toast(I18n.t("toast.water_level"), 4.0)
+
+
 func _after_terrain(c: Vector2i) -> void:
 	if not items.has(c):
 		return
@@ -1360,9 +1419,23 @@ func _is_valid(c: Vector2i) -> bool:
 func _apply(button: int) -> void:
 	var c := hover_cell
 	var before := _cell_state(c) if c != NO_CELL else {}
+	# stage 15 (D4): a terrain edit may move a whole pond — snapshot the terrain, keep the other changed cells in the entry
+	var land0: Dictionary = terrain.heights.duplicate() if mode == "sandbox" else {}
+	var wet0: Dictionary = terrain.water.duplicate() if mode == "sandbox" else {}
 	_apply_inner(button)
 	if c != NO_CELL:
-		_push_undo(c, before)
+		_push_undo(c, before, _terrain_diff(land0, wet0, c) if mode == "sandbox" else {})
+
+
+## The cells (other than the edited one) whose terrain an edit changed, with their state before it.
+func _terrain_diff(land0: Dictionary, wet0: Dictionary, c: Vector2i) -> Dictionary:
+	var out := {}
+	for x in land0.keys() + terrain.heights.keys():
+		if x == c or out.has(x):
+			continue
+		if int(land0.get(x, 0)) != int(terrain.heights.get(x, 0)) or wet0.has(x) != terrain.water.has(x):
+			out[x] = {"h": int(land0.get(x, 0)), "w": wet0.has(x), "b": float(terrain.bottoms.get(x, -1.0))}
+	return out
 
 
 func _apply_inner(button: int) -> void:
@@ -1383,19 +1456,32 @@ func _apply_inner(button: int) -> void:
 		return
 	match tool:
 		"raise":
-			terrain.raise(c)
-			_after_terrain(c)
-			sfx.play("dig", 1.15, -6.0)
+			if terrain.is_water(c):
+				# stage 15 (D3): the whole pond rises — only when all the land around it is at least that high
+				if not terrain.raise_pond(c).is_empty():
+					sfx.play("nope", 1.0, -10.0)
+					ui.toast(I18n.t("toast.pond_low"), 3.0)
+					return
+				for w in Terrain.pond_cells(c, terrain.heights, terrain.water):
+					_after_terrain(w)
+				sfx.play("splash", 1.1, -6.0)
+			else:
+				terrain.raise(c)
+				_after_terrain(c)
+				sfx.play("dig", 1.15, -6.0)
 			_crumbs(terrain.cell_center(c) + Vector3(0, terrain.top_y(c), 0), Color("ad7752"), 6)
+			_settle_terrain()
 		"lower":
 			terrain.lower(c)
 			_after_terrain(c)
 			sfx.play("dig", 0.85, -6.0)
 			_crumbs(terrain.cell_center(c) + Vector3(0, terrain.top_y(c), 0), Color("ad7752"), 6)
+			_settle_terrain()
 		"water":
 			terrain.toggle_water(c)
 			_after_terrain(c)
 			sfx.play("splash" if terrain.is_water(c) else "dig", 1.0, -6.0)
+			_settle_terrain()
 		"remove":
 			_remove_item(c)
 		_:
@@ -1572,6 +1658,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if event is InputEventMouse:
 			return
+	if result_wait >= 0.0 and not event is InputEventKey:
+		return   # the finished island is on show; the result comes in a moment
 	if event is InputEventKey and event.pressed and (event as InputEventKey).keycode == KEY_ESCAPE:
 		if ui.result.visible:
 			ui.hide_result()
@@ -1585,24 +1673,31 @@ func _unhandled_input(event: InputEvent) -> void:
 		if mb.pressed:
 			match mb.button_index:
 				MOUSE_BUTTON_LEFT:
-					painting = 1
-					_apply(1)
+					if hover_cell == NO_CELL and _pick(mb.position) == NO_CELL:
+						rotating = true   # a left drag that begins off the island turns it; over cells it paints
+						yaw_vel = 0.0
+					else:
+						painting = 1
+						_apply(1)
 				MOUSE_BUTTON_RIGHT:
 					painting = 2
 					_apply(2)
 				MOUSE_BUTTON_MIDDLE:
-					panning = true
+					rotating = true
+					yaw_vel = 0.0
 				MOUSE_BUTTON_WHEEL_UP:
-					zoom_target = clampf(zoom_target - 1.0, 7.0, 24.0)
+					zoom_target = clampf(zoom_target - 1.0, zoom_min, zoom_max)
 				MOUSE_BUTTON_WHEEL_DOWN:
-					zoom_target = clampf(zoom_target + 1.0, 7.0, 24.0)
+					zoom_target = clampf(zoom_target + 1.0, zoom_min, zoom_max)
 		else:
 			if mb.button_index == MOUSE_BUTTON_LEFT or mb.button_index == MOUSE_BUTTON_RIGHT:
 				painting = 0
-			elif mb.button_index == MOUSE_BUTTON_MIDDLE:
-				panning = false
-	elif event is InputEventMouseMotion and panning:
-		_pan_screen((event as InputEventMouseMotion).relative)
+			if mb.button_index == MOUSE_BUTTON_LEFT or mb.button_index == MOUSE_BUTTON_MIDDLE:
+				if rotating:
+					_release_spin()
+				rotating = false
+	elif event is InputEventMouseMotion and rotating:
+		_rotate_px((event as InputEventMouseMotion).relative.x)
 	elif event is InputEventKey and event.pressed and not event.echo:
 		var key := (event as InputEventKey).keycode
 		match key:
@@ -1637,14 +1732,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					set_tool(tools[9])
 
 
-func _pan(d: Vector3) -> void:
-	d.y = 0.0
-	var p := pivot.position + d
-	p.x = clampf(p.x, -8.0, 8.0)
-	p.z = clampf(p.z, -8.0, 8.0)
-	pivot.position = p
-
-
 # ================================================================ frame
 
 func _process(dt: float) -> void:
@@ -1654,6 +1741,10 @@ func _process(dt: float) -> void:
 		if settings_timer <= 0.0:
 			_save_settings()
 	_step_wave(dt)
+	if result_wait > 0.0:
+		result_wait -= dt
+		if result_wait <= 0.0:
+			_show_pending_result()
 	_update_camera(dt)
 	_touch_hold()
 	if back_armed > 0.0:
@@ -1688,6 +1779,12 @@ func _process(dt: float) -> void:
 				ui.visible = false
 			if debug_drawer and ui.has_method("toggle_drawer"):
 				ui.toggle_drawer()
+			if sheet_arg != "" and ui.sheets.has(sheet_arg):
+				ui.open_sheet(sheet_arg)
+			if yaw_arg != INF:
+				yaw_target = deg_to_rad(yaw_arg)
+				yaw_vel = 0.0
+				pivot.rotation.y = yaw_target
 		if shot_frames == 60:
 			for p in debug_rclicks:
 				hover_cell = _pick(p)
@@ -1699,24 +1796,127 @@ func _process(dt: float) -> void:
 
 func _update_camera(dt: float) -> void:
 	var k := 1.0 - exp(-dt * 9.0)
-	pivot.rotation.y = lerp_angle(pivot.rotation.y, yaw_target, k)
+	if _turning():
+		pivot.rotation.y = yaw_target   # under the finger: no smoothing, no lag
+	else:
+		if yaw_vel != 0.0:
+			yaw_target += yaw_vel * dt
+			yaw_vel *= exp(-dt / SPIN_DECAY)
+			if absf(yaw_vel) < SPIN_MIN:
+				yaw_vel = 0.0
+				_soft_snap()
+		pivot.rotation.y = lerp_angle(pivot.rotation.y, yaw_target, k)
+	_fit_zoom()
 	cam.size = lerpf(cam.size, zoom_target, k)
-	# phone: the island in the center of the free space. Garden: above the dock (shifted up). Level: right of the rules card
-	# (the card is ~350 px wide out of 600 in height → a shift of half a card = 0.25 of the height in world units).
-	cam.v_offset = 0.0
+	_frame_island()
+
+
+## D2: the island's center (the pivot) is drawn at the center of the free area — the screen minus the interface's reserved
+## parts, which don't change when the rules card collapses or a sheet opens. The shift is fixed in pixels and converted
+## with the current zoom, so a pinch doesn't move the island either.
+func _frame_island() -> void:
 	cam.h_offset = 0.0
-	if touch_mode:
-		if mode == "sandbox":
-			cam.v_offset = -0.05 * cam.size
-		elif mode == "level":
-			cam.h_offset = (-0.12 if card_collapsed else -0.25) * cam.size
-			cam.v_offset = -0.02 * cam.size
-	var mx := int(Input.is_key_pressed(KEY_D)) - int(Input.is_key_pressed(KEY_A))
-	var my := int(Input.is_key_pressed(KEY_S)) - int(Input.is_key_pressed(KEY_W))
-	if mx != 0 or my != 0:
-		var right := pivot.global_transform.basis.x
-		var back := pivot.global_transform.basis.z
-		_pan((right * mx + back * my).normalized() * dt * cam.size * 0.6)
+	cam.v_offset = 0.0
+	var vs: Vector2 = ui.view_size()
+	var fr: Rect2 = ui.free_rect()
+	if fr.size.x <= 1.0 or vs.y <= 1.0:
+		return
+	var s := fr.get_center() - vs * 0.5
+	var px := cam.size / vs.y   # world units per logical pixel (an orthographic camera keeps the height)
+	cam.h_offset = -s.x * px
+	cam.v_offset = s.y * px
+
+
+## The zoom range of this map: the closest zoom keeps every land cell inside the free area at any yaw (no pan any more).
+## Recomputed when the mode, the level or the free area changes; --zoom= (screenshots) is left alone.
+func _fit_zoom() -> void:
+	if mode == "menu" or zoom_arg > 0.0:
+		return
+	var fr: Rect2 = ui.free_rect()
+	var vs: Vector2 = ui.view_size()
+	var key := [mode, level_idx, fr, vs, terrain.heights.size() + terrain.water.size()]
+	if key == fit_key or fr.size.x <= 1.0 or fr.size.y <= 1.0:
+		return
+	fit_key = key
+	zoom_min = fit_size(fr, vs)
+	zoom_max = maxf(24.0, zoom_min * 1.4)
+	zoom_target = clampf(zoom_target, zoom_min, zoom_max)
+
+
+## The orthographic size at which the whole map fits the free area at any yaw: its horizontal radius R around the pivot
+## must fit half the free width, and its height range (cell tops) plus R·sin(pitch) half the free height.
+func fit_size(fr: Rect2, vs: Vector2) -> float:
+	var cells: Array = terrain.heights.keys() + terrain.water.keys()   # the land (the garden recomputes when it grows)
+	var r := 0.0
+	var top := 0.0
+	var low := 0.0
+	for c in cells:
+		var p: Vector3 = terrain.cell_center(c) - pivot.position
+		r = maxf(r, Vector2(p.x, p.z).length() + 0.71)
+		var y: float = terrain.top_y(c) - pivot.position.y
+		top = maxf(top, y + 0.3)   # the cell's top face must be reachable, not the item standing on it
+		low = minf(low, y)
+	var a := deg_to_rad(PITCH)
+	var up := r * sin(a) + top * cos(a)
+	var down := r * sin(a) - low * cos(a)
+	var need_w := 2.0 * r * vs.y / fr.size.x
+	var need_h := 2.0 * maxf(up, down) * vs.y / fr.size.y
+	return maxf(need_w, need_h)
+
+
+func _turning() -> bool:
+	if rotating:
+		return true
+	for i in fingers:
+		var f: Dictionary = fingers[i]
+		if not f["ui"] and f["moved"] and not multi:
+			return true
+	return false
+
+
+## A horizontal drag by dx logical pixels: the island follows the finger, a full screen width is half a turn.
+func _rotate_px(dx: float) -> void:
+	var w: float = maxf(ui.view_size().x, 1.0)
+	var d := -dx * PI / w
+	yaw_target += d
+	pivot.rotation.y = yaw_target
+	var now := Time.get_ticks_usec()
+	var gap := maxf(float(now - drag_us) / 1000000.0, 1.0 / 240.0)
+	drag_us = now
+	yaw_vel = lerpf(yaw_vel, clampf(d / gap, -12.0, 12.0), 0.5)
+
+
+## The finger lifted: keep the speed only if it was still moving (a pause before the release stops the island).
+func _release_spin() -> void:
+	if float(Time.get_ticks_usec() - drag_us) / 1000000.0 > 0.06:
+		yaw_vel = 0.0
+	if absf(yaw_vel) < SPIN_MIN:
+		yaw_vel = 0.0
+		_soft_snap()
+
+
+## After a spin: within SNAP_DEG of a fixed position the island eases into it; any other angle stays.
+func _soft_snap() -> void:
+	var k := (yaw_target - YAW_BASE) / YAW_STEP
+	var n := roundf(k)
+	if absf(k - n) * 90.0 < SNAP_DEG:
+		yaw_target = YAW_BASE + n * YAW_STEP
+
+
+## Q / E: to the next fixed position (45° + k·90°) in that direction, counted from where the island is going; if less than
+## SNAP_DEG remain to it, to the one after (this also absorbs float noise right at a position).
+static func next_yaw(yaw: float, dir: int) -> float:
+	var k := (yaw - YAW_BASE) / YAW_STEP
+	var n: float
+	if dir > 0:
+		n = floorf(k) + 1.0
+		if (n - k) * 90.0 < SNAP_DEG:
+			n += 1.0
+	else:
+		n = ceilf(k) - 1.0
+		if (k - n) * 90.0 < SNAP_DEG:
+			n -= 1.0
+	return YAW_BASE + n * YAW_STEP
 
 
 func _update_hover() -> void:
@@ -1914,6 +2114,7 @@ func _load() -> bool:
 		if int(row[3]) == 1:
 			terrain.water[c] = true
 		terrain.bottoms[c] = float(row[4])
+	pond_note = not terrain.settle().is_empty()   # stage 15 (D5): a garden from before may have raised ponds
 	terrain.build_all()
 	for row in data["items"]:
 		_place_item(Vector2i(int(row[0]), int(row[1])), str(row[2]), int(row[3]), int(row[4]), false)
@@ -1948,11 +2149,13 @@ func _notification(what: int) -> void:
 func go_back() -> void:
 	if ui.close_top():
 		return
-	if ui.result.visible:
-		ui.hide_result()
+	if result_wait >= 0.0:
 		return
 	if mode != "menu":
-		open_menu()
+		if touch_mode and ui.has_method("open_sheet"):
+			ui.open_sheet("drawer")   # D2 finding: an edge swipe is Back — it mustn't throw the player out of a level
+		else:
+			open_menu()
 		return
 	if back_armed > 0.0:
 		_flush_save()
@@ -1978,7 +2181,11 @@ func _touch(ev: InputEvent) -> void:
 		var st := ev as InputEventScreenTouch
 		if st.pressed:
 			fingers[st.index] = {"start": st.position, "pos": st.position, "t0": t,
-				"ui": mode == "menu" or ui.is_over_ui(st.position), "moved": false, "long": false}
+				"ui": mode == "menu" or result_wait >= 0.0 or ui.is_over_ui(st.position), "moved": false, "long": false}
+			if absf(yaw_vel) > SPIN_STOP and not fingers[st.index]["ui"]:
+				fingers[st.index]["moved"] = true   # this touch stops the spin: not a tap, may go on as a drag
+				drag_us = Time.get_ticks_usec()
+			yaw_vel = 0.0
 			var world := _world_fingers()
 			if world.size() >= 2:
 				multi = true
@@ -1988,6 +2195,8 @@ func _touch(ev: InputEvent) -> void:
 		var f = fingers.get(st.index)
 		fingers.erase(st.index)
 		ui.press_ring(Vector2.ZERO, -1.0)
+		if f != null and not f["ui"] and f["moved"] and not multi:
+			_release_spin()
 		if f != null and not f["ui"] and not multi and not f["moved"] and not f["long"] and t - float(f["t0"]) < LONG_TIME:
 			_tap(st.position)
 		if _world_fingers().size() < 2:
@@ -2005,14 +2214,18 @@ func _touch(ev: InputEvent) -> void:
 		if world.size() >= 2:
 			var d := (world[0]["pos"] as Vector2).distance_to(world[1]["pos"])
 			if pinch_d > 1.0 and d > 1.0:
-				zoom_target = clampf(zoom_target * pinch_d / d, 7.0, 24.0)
+				zoom_target = clampf(zoom_target * pinch_d / d, zoom_min, zoom_max)
 			pinch_d = d
 		return   # one finger left after a pinch — no drag and no tap until all are released
 	if not fd["moved"] and sd.position.distance_to(fd["start"]) > TAP_SLOP:
 		fd["moved"] = true
 		ui.press_ring(Vector2.ZERO, -1.0)
+		drag_us = Time.get_ticks_usec()
+		_rotate_px(sd.position.x - (fd["start"] as Vector2).x)   # the slop isn't lost: the island catches up with the finger
+		yaw_vel = 0.0
+		return
 	if fd["moved"]:
-		_pan_screen(sd.relative)
+		_rotate_px(sd.relative.x)
 
 
 ## Long press: the ring grows from 0.2 s, at 0.45 s the item is removed (on a level — back to hand). Only over an item.
@@ -2048,11 +2261,15 @@ func _tap(pos: Vector2) -> void:
 				confirm_aim()
 		else:
 			_set_aim(c)
-			if not items.has(c):
-				_coach("aim")
+			if not items.has(c) and aim_placed < 3:
+				_aim_hint()
 	elif mode == "sandbox":
 		if c == NO_CELL:
 			_set_aim(NO_CELL)
+			return
+		if items.has(c) and not Items.info(tool).is_empty():
+			_set_aim(c)   # an item tool on an occupied cell selects it (for the trash), silently
+			hover_cell = c
 			return
 		hover_cell = c
 		_apply(1)
@@ -2075,6 +2292,10 @@ func confirm_aim() -> void:
 	_apply(1)
 	if items.has(c):
 		_set_aim(NO_CELL)
+		aim_placed += 1
+		if aim_placed >= 3:
+			coach["aim"] = true
+			settings_timer = 0.5
 		_coach("place")
 
 
@@ -2092,6 +2313,28 @@ func _take_back(c: Vector2i) -> void:
 
 func take_back_aim() -> void:
 	_take_back(aim_cell)
+
+
+## The trash button (D3): return the selected item to the hand (level) or remove it (garden). Nothing selected — say how.
+func trash() -> void:
+	if result_wait >= 0.0 or mode == "menu":
+		return
+	if aim_cell == NO_CELL or not items.has(aim_cell):
+		sfx.play("nope", 1.0, -10.0)
+		ui.toast(I18n.t("toast.trash_pick"), 2.5)
+		return
+	if items[aim_cell]["fixed"]:
+		sfx.play("nope", 1.0, -10.0)
+		ui.toast(I18n.t("toast.fixed"), 2.0)
+		return
+	_take_back(aim_cell)
+
+
+## "Tap again to place" — shown on every try until the 3rd placement (not only once).
+func _aim_hint() -> void:
+	if not touch_mode or coach.has("aim"):
+		return
+	ui.toast(I18n.t("coach.aim"), 4.0)
 
 
 ## The button above the tried cell: ✓ — place (level), arrow into the tray — remove / back to hand (if the item isn't fixed).
@@ -2150,20 +2393,14 @@ func toggle_card() -> void:
 
 
 func rotate_island(dir: int) -> void:
-	yaw_target += PI * 0.5 * dir
+	yaw_vel = 0.0
+	yaw_target = next_yaw(yaw_target, dir)
 
 
 func rotate_item() -> void:
 	ghost_rot = (ghost_rot + 1) % 4
 	if ghost and Items.info(tool).get("rotatable", false):
 		ghost.rotation.y = ghost_rot * PI * 0.5
-
-
-func _pan_screen(rel: Vector2) -> void:
-	var k := cam.size / get_viewport().get_visible_rect().size.y
-	var right := pivot.global_transform.basis.x
-	var fwd := -pivot.global_transform.basis.z
-	_pan(-right * rel.x * k + fwd * rel.y * k / sin(deg_to_rad(35.0)))
 
 
 # ================================================================ undo (stage 10)
@@ -2177,17 +2414,17 @@ func _cell_state(c: Vector2i) -> Dictionary:
 	return {"h": int(terrain.heights.get(c, 0)), "w": terrain.water.has(c), "b": float(terrain.bottoms.get(c, -1.0)), "it": it}
 
 
-func _push_undo(c: Vector2i, before: Dictionary) -> void:
-	if before == _cell_state(c):
+func _push_undo(c: Vector2i, before: Dictionary, extra: Dictionary = {}) -> void:
+	if before == _cell_state(c) and extra.is_empty():
 		return
-	undo_stack.append({"c": c, "s": before})
+	undo_stack.append({"c": c, "s": before, "extra": extra})
 	if undo_stack.size() > UNDO_MAX:
 		undo_stack.pop_front()
 
 
 ## Undo the last action (up to 10): a button on touch, Ctrl+Z on PC. On a level items go through the hand.
 func undo() -> void:
-	if mode == "menu" or ui.result.visible or undo_stack.is_empty():
+	if mode == "menu" or ui.result.visible or result_wait >= 0.0 or undo_stack.is_empty():
 		if mode != "menu":
 			sfx.play("nope", 1.0, -10.0)
 		return
@@ -2210,6 +2447,24 @@ func undo() -> void:
 				terrain.water.erase(c)
 			terrain.bottoms[c] = float(s["b"])
 		terrain.build_cell(c, true)
+		if (now["h"] <= 0) != (int(s["h"]) <= 0):
+			terrain._rebuild_wet_neighbors(c)
+	# the other cells the edit moved (a pond that settled): their terrain back as it was, without settling again
+	var extra: Dictionary = e.get("extra", {})
+	for x in extra:
+		var xs: Dictionary = extra[x]
+		if int(xs["h"]) <= 0:
+			terrain.heights.erase(x)
+			terrain.water.erase(x)
+		else:
+			terrain.heights[x] = int(xs["h"])
+			if xs["w"]:
+				terrain.water[x] = true
+			else:
+				terrain.water.erase(x)
+		terrain.build_cell(x, true)
+		if items.has(x):
+			(items[x]["node"] as Node3D).position.y = terrain.surface_y(x)
 	if now["it"] != s["it"]:
 		if now["it"] != null:
 			if mode == "level":
